@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EmptyUser, UserOnline } from "./userOnline";
+import { EmptyUser, UserOnline,  } from "./userOnline";
 
 const initialState: UserOnline = {
     user: EmptyUser,
