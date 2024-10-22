@@ -5,7 +5,7 @@ import { FaUserLargeSlash } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import './Styles/onlineUserProfile.css'
+import '../Styles/onlineUserProfile.css'
 import { useEffect, useState } from "react";
 import { useOnlineUserProfile } from "../Hooks/useOnlineUserProfile";
 import { useAppDispatch, useAppSelector } from "../../../REDUX/Hook/useStore";
