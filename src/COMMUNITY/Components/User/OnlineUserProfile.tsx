@@ -3,12 +3,13 @@ import { FaGenderless } from "react-icons/fa";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { FaUserLargeSlash } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import './Styles/onlineUserProfile.css'
 import { useEffect, useState } from "react";
-import { useOnlineUserProfile } from "./Hooks/useOnlineUserProfile";
-import { useAppSelector } from "../../REDUX/Hook/useStore";
+import { useOnlineUserProfile } from "../Hooks/useOnlineUserProfile";
+import { useAppDispatch, useAppSelector } from "../../../REDUX/Hook/useStore";
+import { EmptyUser } from "../../../REDUX/slice/userOnline";
 
 export default function OnlineUserProfile() {
 
@@ -23,6 +24,8 @@ export default function OnlineUserProfile() {
 
     // USER ONLINE LOCAL
     const userOnline = useAppSelector(state => state.userOnline)
+    // USUARIO PROPIO
+    const ownUser = useAppSelector(state => state.ownUser)
 
     //DECLARAR GÉNERO
     const declareGender = (gender: string) => {
@@ -38,6 +41,14 @@ export default function OnlineUserProfile() {
             default:
                 break;
         }
+    }
+
+    //DESLOGUEAR USUARIO
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const logOut = (): void => {
+        dispatch({ type: 'ownUser/assignOwnProfile', payload: { user: EmptyUser, state: null } })
+        navigate('/')
     }
 
     return (
@@ -64,8 +75,11 @@ export default function OnlineUserProfile() {
                     <section className="online-user-perfile__supplementary-data">
                         <header className="online-user-perfile__supplementary-data__options">
                             <Link className="online-user-perfile__supplementary-data__options__btn" to={'/'}><MdOutlineArrowBackIos /></Link>
-                            <button className="online-user-perfile__supplementary-data__options__btn" type="button"><MdEdit /></button>
-                            <button className="online-user-perfile__supplementary-data__options__btn" type="button"><FaUserLargeSlash /></button>
+
+                            {ownUser.user.online && <>
+                                <button className="online-user-perfile__supplementary-data__options__btn" type="button"><MdEdit /></button>
+                                <button className="online-user-perfile__supplementary-data__options__btn" type="button" onClick={logOut}><FaUserLargeSlash /></button></>}
+
                             <span className="online-user-perfile__supplementary-data__options__date">Unido desde {userOnline.user.dateOfUnion}</span>
                         </header>
                         <main className="online-user-perfile__supplementary-data__main">

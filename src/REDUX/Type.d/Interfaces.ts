@@ -1,10 +1,12 @@
+import { Gender, Location, MagicClass, Specie } from "../../COMMUNITY/Type.d/Interfaces";
+
 export interface Character {
     fullName: string;     
     age: number;       
-    species: "Human" | "Faeril" | "Daegon" | "Felyrian" | "Jebale-c";
-    location: "Centro de Indawo" | "Sylvalora" | "Abyssor" | "Nyssara" | "Thornez'har";
-    gender: "Masculino" | "Femenino" | "Indefinido"; 
-    magicClass: "Aegiscaster" | "Luminaris" | "Valkyros" | "Arcanomancer"; 
+    species: Specie['natalName'];
+    location: Location['natalName'];
+    gender: Gender; 
+    magicClass: MagicClass['natalName']; 
 }
 
 export interface User extends Character{
@@ -13,4 +15,6 @@ export interface User extends Character{
     description: string,  
     dateOfUnion: string,
     profilePicture: string,
+    online: boolean,
+    password: string
 }

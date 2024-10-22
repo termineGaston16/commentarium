@@ -6,7 +6,7 @@ import { EmptyUser } from "../slice/userOnline";
 const searchProfileByDisplayNameMiddleware: Middleware = _store => next => (action: any) => {
 
     if (action.type === 'userOnline/searchProfileByDisplayName') {
-        const perfil = USERS.find(perfile => perfile.displayName.toLocaleLowerCase() === action.payload)
+        const perfil = USERS.find(perfile => perfile.displayName === action.payload)
         if (perfil) {
             next({ type: 'userOnline/assignProfile', payload: { user: perfil, state: null } })
         } else {
@@ -17,4 +17,21 @@ const searchProfileByDisplayNameMiddleware: Middleware = _store => next => (acti
     next(action)
 }
 
-export default  searchProfileByDisplayNameMiddleware 
+// LOGUEAR USUARIO
+const loginUserMiddleware: Middleware = _store => next => (action: any) => {
+
+    if (action.type === 'ownUser/searchUserForLogin') {
+
+        const perfil = USERS.find(perfile => perfile.displayName === action.payload.displayName &&
+            perfile.password === action.payload.password)
+        if (perfil) {
+            next({ type: 'ownUser/assignOwnProfile', payload: { user: { ...perfil, online: true }, state: null } })
+        }else{
+            next({ type: 'ownUser/assignOwnProfile', payload: { user: EmptyUser, state: '*Algunos de los datos son incorrectos. Ingreselo nuevamente.' } })
+        }
+    }
+
+    next(action)
+}
+
+export {searchProfileByDisplayNameMiddleware, loginUserMiddleware} 

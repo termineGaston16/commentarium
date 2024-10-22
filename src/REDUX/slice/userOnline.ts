@@ -17,15 +17,15 @@ export const EmptyUser: User = {
     location:'Centro de Indawo',
     magicClass:'Aegiscaster',
     profilePicture:'',
-    species:'Human'
+    species:'Human',
+    online: false,
+    password: ''
 }
 
 const initialState: UserOnline = {
     user: EmptyUser,
     state: null
 }
-
-
 
 export const userOnlineSlice = createSlice({
     name: 'userOnline',

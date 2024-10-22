@@ -5,7 +5,9 @@ import { Provider } from "react-redux";
 import { store } from "./REDUX";
 
 //LAZY
-const OnlineUserProfile = lazy(() => import('./COMMUNITY/Components/OnlineUserProfile'))
+const OnlineUserProfile = lazy(() => import('./COMMUNITY/Components/User/OnlineUserProfile'))
+const Login = lazy(()=> import('./COMMUNITY/Components/User/Login'))
+const Register = lazy(()=> import('./COMMUNITY/Components/User/Register'))
 
 export default function App() {
     return (
@@ -17,6 +19,10 @@ export default function App() {
                     <Route path="/" element={<Community />} />
                     <Route path="/perfil/:displayName"
                         element={<Suspense fallback='Cargando componente: OnlineUserProfile'><OnlineUserProfile /></Suspense>} />
+                    <Route path="/login" 
+                        element={<Suspense fallback='Cargando componente: Login'><Login /></Suspense>}/>
+                        <Route path="/registrarse" 
+                        element={<Suspense fallback='Cargando componente: Register'><Register /></Suspense>}/>
                 </Routes>
             </BrowserRouter>
         </Provider>

@@ -8,7 +8,6 @@ export const useOnlineUserProfile = () => {
     const validateQueryDisplayName = (displayName: string): string | null => {
         const queryFilter = displayName
             .trim()
-            .toLocaleLowerCase()
             .replace(/\W/g, '')
 
         if(queryFilter.length < 1) return '* Ingrese un nombre válido.' 

@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import  userOnlineSlice  from "./slice/userOnline";
-import searchProfileByDisplayNameMiddleware from './Middleware/middleware'
+import userOnlineSlice from "./slice/userOnline";
+import { searchProfileByDisplayNameMiddleware, loginUserMiddleware } from './Middleware/middleware'
+import ownUserSlice from "./slice/ownUser";
 
 export const store = configureStore({
     reducer: {
-        userOnline: userOnlineSlice
+        userOnline: userOnlineSlice,
+        ownUser: ownUserSlice
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(searchProfileByDisplayNameMiddleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(searchProfileByDisplayNameMiddleware, loginUserMiddleware)
 })
 
 export type StoreType = ReturnType<typeof store.getState>
