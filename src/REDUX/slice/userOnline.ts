@@ -12,12 +12,13 @@ export const EmptyUser: User = {
     description:'',
     displayName:'',
     fullName:'',
-    gender:'Indefinido',
+    gender: '',
     id:'',
-    location:'Centro de Indawo',
-    magicClass:'Aegiscaster',
-    profilePicture:'',
-    species:'Human',
+    location: '',
+    magicClass:'',
+    profilePictureFile:null,
+    profilePictureUrl:'',
+    species:'',
     online: false,
     password: ''
 }

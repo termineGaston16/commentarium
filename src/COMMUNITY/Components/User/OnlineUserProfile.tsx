@@ -2,7 +2,6 @@ import { IoMdFemale, IoIosMale } from "react-icons/io";
 import { FaGenderless } from "react-icons/fa";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { FaUserLargeSlash } from "react-icons/fa6";
-import { MdEdit } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import '../Styles/onlineUserProfile.css'
@@ -57,7 +56,7 @@ export default function OnlineUserProfile() {
                 <main className="online-user-perfile">
                     <section className="online-user-perfile__data-profile">
                         <img className="online-user-perfile__data-profile__avatar"
-                            src={userOnline.user.profilePicture}
+                            src={userOnline.user.profilePictureUrl}
                             alt={`Foto de perfil del usuario ${userOnline.user.displayName}`} />
                         <div className="online-user-perfile__data-profile__names">
                             <span className="online-user-perfile__data-profile__names__display-name">@{userOnline.user.displayName}</span>
@@ -77,7 +76,6 @@ export default function OnlineUserProfile() {
                             <Link className="online-user-perfile__supplementary-data__options__btn" to={'/'}><MdOutlineArrowBackIos /></Link>
 
                             {ownUser.user.online && <>
-                                <button className="online-user-perfile__supplementary-data__options__btn" type="button"><MdEdit /></button>
                                 <button className="online-user-perfile__supplementary-data__options__btn" type="button" onClick={logOut}><FaUserLargeSlash /></button></>}
 
                             <span className="online-user-perfile__supplementary-data__options__date">Unido desde {userOnline.user.dateOfUnion}</span>

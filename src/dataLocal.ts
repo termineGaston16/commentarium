@@ -1,5 +1,7 @@
-import { Specie, MagicClass, Location } from "./COMMUNITY/Type.d/Interfaces";
+import { IoIosMale, IoMdFemale } from "react-icons/io";
+import { Specie, MagicClass, Location, Gender } from "./COMMUNITY/Type.d/Interfaces";
 import { User } from "./REDUX/Type.d/Interfaces";
+import { FaGenderless } from "react-icons/fa6";
 
 export const USERS: User[] = [
     {
@@ -9,11 +11,12 @@ export const USERS: User[] = [
         age: 25,
         species: "Faeril",
         location: "Sylvalora",
-        gender: "Femenino",
+        gender: 'Femenino',
         magicClass: "Luminaris",
         description: "Una joven Faeril que domina la magia de la luz, conocida por su naturaleza empática y su búsqueda de la verdad.",
         dateOfUnion: "2023-10-17",
-        profilePicture: "https://example.com/faeril.jpg",
+        profilePictureUrl: "https://example.com/faeril.jpg",
+        profilePictureFile: null,
         online: false,
         password: 'abc'
     },
@@ -28,7 +31,8 @@ export const USERS: User[] = [
         magicClass: "Aegiscaster",
         description: "Un guerrero Daegon del frío desierto de Thornez'har, conocido por su destreza con escudos mágicos y defensa impenetrable.",
         dateOfUnion: "2023-05-12",
-        profilePicture: "https://example.com/daegon.jpg",
+        profilePictureUrl: "https://example.com/daegon.jpg",
+        profilePictureFile: null,
         online: false,
         password: 'ABC'
     },
@@ -43,7 +47,8 @@ export const USERS: User[] = [
         magicClass: "Arcanomancer",
         description: "Una Felyrian de Nyssara, hábil en el control de arcanos y con una mente curiosa que explora las energías místicas.",
         dateOfUnion: "2024-01-03",
-        profilePicture: "https://example.com/felyrian.jpg",
+        profilePictureUrl: "https://example.com/felyrian.jpg",
+        profilePictureFile: null,
         online: false,
         password: '123'
     },
@@ -58,7 +63,8 @@ export const USERS: User[] = [
         magicClass: "Valkyros",
         description: "Torin es un enigmático Jebale-c de Abyssor, maestro de las tormentas y los vientos furiosos que guarda secretos ancestrales.",
         dateOfUnion: "2022-11-20",
-        profilePicture: "https://example.com/jebale-c.jpg",
+        profilePictureUrl: "https://example.com/jebale-c.jpg",
+        profilePictureFile: null,
         online: false,
         password: 'aBC'
     }, {
@@ -72,20 +78,19 @@ export const USERS: User[] = [
         magicClass: "Arcanomancer",
         description: "Eirik, un humano del Centro de Indawo, es un hechicero con vasto conocimiento en las artes arcanas y estrategias mágicas.",
         dateOfUnion: "2021-08-15",
-        profilePicture: "https://example.com/human.jpg",
+        profilePictureUrl: "https://example.com/human.jpg",
+        profilePictureFile: null,
         online: false,
         password: 'asd'
     }
 ]
 
-// ---------------------------------
-
 export const SPECIES: Specie[] = [
-    { natalName: "Humanos", nameTranslated: "Centro de Indawo" },
-    { natalName: "Faerils", nameTranslated: "Sylvalora" },
-    { natalName: "Daegons", nameTranslated: "Abyssor" },
-    { natalName: "Felyrians", nameTranslated: "Nyssara" },
-    { natalName: "Jebale-cs", nameTranslated: "Thornez'har" }
+    { natalName: "Humans", nameTranslated: "Humanos" },
+    { natalName: "Faerils", nameTranslated: "Hadas" },
+    { natalName: "Daegons", nameTranslated: "Demonios" },
+    { natalName: "Felyrians", nameTranslated: "Felinos" },
+    { natalName: "Jebale-cs", nameTranslated: "Jebale-cs" }
 ];
 
 export const LOCATIONS: Location[] = [
@@ -141,4 +146,19 @@ export const MAGIC_CLASSES: MagicClass[] = [
         img: "path_to_image_of_arcanomancer"
     }
 ];
+
+export const GENDER: Gender[] = [
+    {
+        natalName: 'Femenino',
+        logo: IoMdFemale
+    },
+    {
+        natalName: 'Masculino',
+        logo: IoIosMale
+    },
+    {
+        natalName: 'Indefenido',
+        logo: FaGenderless
+    }
+]
 

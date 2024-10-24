@@ -34,4 +34,15 @@ const loginUserMiddleware: Middleware = _store => next => (action: any) => {
     next(action)
 }
 
-export {searchProfileByDisplayNameMiddleware, loginUserMiddleware} 
+// SUBIR USUARIO
+const uploadNewUserMiddleware: Middleware = _store => next => (action: any) =>{
+
+    if(action.type === 'ownUser/uploadNewUser'){
+        USERS.push(action.payload)
+        next({type:'ownUser/assignOwnProfile', payload: {user: action.payload, state: null}})
+    }
+
+    next(action)
+}
+
+export {searchProfileByDisplayNameMiddleware, loginUserMiddleware,uploadNewUserMiddleware} 

@@ -18,7 +18,7 @@ export const usePersonalProfile = () => {
     const validatePassworld = (password: string): string | null => {
         const passwordFiltered = password
             .trim()
-            .replace(/[^A-Za-z0-9! @ # $ % ^ & * ( ) _ + - = { } : ; " ' < > , .]/g, '')
+            .replace(/[^A-Za-z0-9 ! @ # $ % ^ & * ( ) _ + - = { } : ; " ' < > , .]/g, '')
         
         if (passwordFiltered.length < 1) return '* Ingresa datos válidos.'
         return null;

@@ -3,10 +3,10 @@ import { Gender, Location, MagicClass, Specie } from "../../COMMUNITY/Type.d/Int
 export interface Character {
     fullName: string;     
     age: number;       
-    species: Specie['natalName'];
+    species: Specie['nameTranslated'];
     location: Location['natalName'];
-    gender: Gender; 
-    magicClass: MagicClass['natalName']; 
+    gender: Gender['natalName']; 
+    magicClass: MagicClass['nameTranslated']; 
 }
 
 export interface User extends Character{
@@ -14,7 +14,8 @@ export interface User extends Character{
     displayName: string, 
     description: string,  
     dateOfUnion: string,
-    profilePicture: string,
+    profilePictureFile: File | null,
+    profilePictureUrl: string
     online: boolean,
     password: string
 }
