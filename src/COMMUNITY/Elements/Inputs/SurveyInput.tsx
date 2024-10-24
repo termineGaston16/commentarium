@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Survey_ChatOwnUser } from "../Type.d/Interfaces";
-import { useAppDispatch } from "../../REDUX/Hook/useStore";
+import { Survey_ChatOwnUser } from "../../Type.d/Interfaces";
+import { useAppDispatch } from "../../../REDUX/Hook/useStore";
 
 interface Props {
     index: number;
@@ -37,7 +37,7 @@ const SurveyInput: React.FC<Props> = ({ value, index }) => {
             type: 'temporaryChatOwnUserSlice/modifyValueInput',
             payload: {
                 index,
-                newValue: { title, options: newOptions } // Mantener el título y actualizar las opciones
+                newValue: { title, options: newOptions } 
             }
         });
     };

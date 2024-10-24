@@ -48,15 +48,57 @@ const uploadNewUserMiddleware: Middleware = _store => next => (action: any) => {
 // AGREGAR INPUT
 const addInputMiddleware: Middleware = store => next => (action: any) => {
     if (action.type === 'temporaryChatOwnUserSlice/addInput') {
-        if (store.getState().temporaryChatOwnUser.length === 5) return
+        if (store.getState().temporaryChatOwnUser.length === 5) return alert('No se puede subir más de 5 cosas')
 
-        switch (action.payload) {
+        switch (action.payload.t) {
             case 'TEXT':
                 next({ type: 'temporaryChatOwnUserSlice/addInputToChat', payload: { type: 'TEXT', value: '' } })
                 break;
 
             case 'SURVEY':
                 next({ type: 'temporaryChatOwnUserSlice/addInputToChat', payload: { type: 'SURVEY', value: { title: '', options: ['', ''] } } })
+                break;
+
+            case 'IMG_FILE':
+                next({
+                    type: 'temporaryChatOwnUserSlice/addInputToChat', payload: {
+                        type: 'IMG_FILE',
+                        linkUrl: action.payload.v.data,
+                        data: {
+                            name: action.payload.v.name,
+                            size: action.payload.v.size,
+                            type: action.payload.v.type
+                        }
+                    }
+                })
+                break;
+
+            case 'DOC_FILE':
+                next({
+                    type: 'temporaryChatOwnUserSlice/addInputToChat', payload: {
+                        type: 'DOC_FILE',
+                        linkUrl: action.payload.v.data,
+                        data: {
+                            name: action.payload.v.name,
+                            size: action.payload.v.size,
+                            type: action.payload.v.type
+                        }
+                    }
+                })
+                break;
+
+            case 'AUD_FILE':
+                next({
+                    type: 'temporaryChatOwnUserSlice/addInputToChat', payload: {
+                        type: 'AUD_FILE',
+                        linkUrl: action.payload.v.data,
+                        data: {
+                            name: action.payload.v.name,
+                            size: action.payload.v.size,
+                            type: action.payload.v.type
+                        }
+                    }
+                })
                 break;
 
             default:

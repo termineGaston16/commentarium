@@ -1,5 +1,5 @@
-import { useAppDispatch } from "../../REDUX/Hook/useStore"
-import { Text_ChatOwnUser } from "../Type.d/Interfaces"
+import { useAppDispatch } from "../../../REDUX/Hook/useStore"
+import { Text_ChatOwnUser } from "../../Type.d/Interfaces"
 
 interface Props {
     index: number,
@@ -14,7 +14,7 @@ const TextInput: React.FC<Props> = ({ value, index }) => {
         <input type="text" value={value} onChange={(e) => {
             dispatch({
                 type: 'temporaryChatOwnUserSlice/modifyValueInput', payload:
-                    { index: index, newValue: e.target.value }
+                    { index: index, newValue: e.target.value}
             })
         }} />
 

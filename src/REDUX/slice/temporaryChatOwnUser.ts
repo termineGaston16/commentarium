@@ -14,7 +14,7 @@ export const temporaryChatOwnUserSlice = createSlice({
             console.log(action.payload, 1);
             state.splice(action.payload, 1)
         },
-        modifyValueInput: (state, action: PayloadAction<{ index: number, newValue: string | File }>) => {
+        modifyValueInput: (state, action: PayloadAction<{ index: number, newValue: string }>) => {
             const { index, newValue } = action.payload;
             state[index].value = newValue; 
         }

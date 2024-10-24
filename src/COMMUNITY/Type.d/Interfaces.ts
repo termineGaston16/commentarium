@@ -39,8 +39,13 @@ export interface Survey_ChatOwnUser{
 }
 
 export interface File_ChatOwnUser{
-    type: 'FILE',
-    value: File
+    type: 'IMG_FILE' | 'DOC_FILE' | 'AUD_FILE',
+    linkUrl:string
+    data:{
+        name:string,
+        type:string,
+        size: number
+    }
 }
 
 export interface User_ChatOwnUser{

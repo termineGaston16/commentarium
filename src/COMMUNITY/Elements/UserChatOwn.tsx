@@ -1,8 +1,11 @@
 import { ReactNode } from "react";
 import { useAppSelector } from "../../REDUX/Hook/useStore";
 import { ChatOwnUser } from "../Type.d/Interfaces";
-import TextInput from "./TextInput";
-import SurveyInput from "./SurveyInput";
+import TextInput from "./Inputs/TextInput";
+import SurveyInput from "./Inputs/SurveyInput";
+import ImgFileInput from "./Inputs/ImgFileInput";
+import DocFileInput from "./Inputs/DocFileInput";
+import AudFileInput from "./Inputs/AudFileInput";
 
 export default function userChatOwn() {
 
@@ -18,22 +21,20 @@ export default function userChatOwn() {
                         case 'TEXT':
                             return (<TextInput key={index} value={element.value} index={index} />);
 
-                        case "FILE":
-                            return (
-                                <li key={index} className="user-chat__item">
-                                    User...
-                                </li>
-                            );
-
                         case "SURVEY":
                             return (<SurveyInput key={index} value={element.value} index={index} />);
 
+                        case "IMG_FILE":
+                            return (<ImgFileInput key={index} value={element.linkUrl} index={index} />);
+
+                        case "DOC_FILE":
+                            return (<DocFileInput key={index} value={element} index={index} />);
+
+                        case "AUD_FILE":
+                            return (<AudFileInput key={index} value={element.linkUrl} index={index} />);
+
                         case "USER":
-                            return (
-                                <li key={index} className="user-chat__item">
-                                    User...
-                                </li>
-                            );
+                            return ('');
 
                         default:
                             return null;
