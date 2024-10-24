@@ -26,7 +26,7 @@ const loginUserMiddleware: Middleware = _store => next => (action: any) => {
             perfile.password === action.payload.password)
         if (perfil) {
             next({ type: 'ownUser/assignOwnProfile', payload: { user: { ...perfil, online: true }, state: null } })
-        }else{
+        } else {
             next({ type: 'ownUser/assignOwnProfile', payload: { user: EmptyUser, state: '*Algunos de los datos son incorrectos. Ingreselo nuevamente.' } })
         }
     }
@@ -35,14 +35,42 @@ const loginUserMiddleware: Middleware = _store => next => (action: any) => {
 }
 
 // SUBIR USUARIO
-const uploadNewUserMiddleware: Middleware = _store => next => (action: any) =>{
+const uploadNewUserMiddleware: Middleware = _store => next => (action: any) => {
 
-    if(action.type === 'ownUser/uploadNewUser'){
+    if (action.type === 'ownUser/uploadNewUser') {
         USERS.push(action.payload)
-        next({type:'ownUser/assignOwnProfile', payload: {user: action.payload, state: null}})
+        next({ type: 'ownUser/assignOwnProfile', payload: { user: action.payload, state: null } })
     }
 
     next(action)
 }
 
-export {searchProfileByDisplayNameMiddleware, loginUserMiddleware,uploadNewUserMiddleware} 
+// AGREGAR INPUT
+const addInputMiddleware: Middleware = store => next => (action: any) => {
+    if (action.type === 'temporaryChatOwnUserSlice/addInput') {
+        if (store.getState().temporaryChatOwnUser.length === 5) return
+
+        switch (action.payload) {
+            case 'TEXT':
+                next({ type: 'temporaryChatOwnUserSlice/addInputToChat', payload: { type: 'TEXT', value: '' } })
+                break;
+
+            case 'SURVEY':
+                next({ type: 'temporaryChatOwnUserSlice/addInputToChat', payload: { type: 'SURVEY', value: { title: '', options: ['', ''] } } })
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    next(action)
+}
+
+
+export {
+    searchProfileByDisplayNameMiddleware,
+    loginUserMiddleware,
+    uploadNewUserMiddleware,
+    addInputMiddleware,
+} 

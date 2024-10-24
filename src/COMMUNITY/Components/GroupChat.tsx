@@ -3,8 +3,6 @@ import { FaRegComments } from "react-icons/fa6";
 
 import './Styles/groupChat.css'
 
-
-
 export default function GroupChat(){
     return(
         <ul className="group-chat">
