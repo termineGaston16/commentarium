@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../REDUX/Hook/useStore";
 
 interface Props {
     index: number,
-    value: File_ChatOwnUser['linkUrl']
+    value: File_ChatOwnUser['value']
 }
 
 const ImgFileInput: React.FC<Props> = ({ index, value }) => {

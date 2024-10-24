@@ -25,13 +25,13 @@ export default function userChatOwn() {
                             return (<SurveyInput key={index} value={element.value} index={index} />);
 
                         case "IMG_FILE":
-                            return (<ImgFileInput key={index} value={element.linkUrl} index={index} />);
+                            return (<ImgFileInput key={index} value={element.value} index={index} />);
 
                         case "DOC_FILE":
                             return (<DocFileInput key={index} value={element} index={index} />);
 
                         case "AUD_FILE":
-                            return (<AudFileInput key={index} value={element.linkUrl} index={index} />);
+                            return (<AudFileInput key={index} value={element.value} index={index} />);
 
                         case "USER":
                             return ('');

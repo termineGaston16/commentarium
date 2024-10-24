@@ -3,7 +3,7 @@ import { File_ChatOwnUser } from "../../Type.d/Interfaces";
 
 interface Props {
     index: number,
-    value: File_ChatOwnUser['linkUrl']
+    value: File_ChatOwnUser['value']
 }
 
 const AudFileInput: React.FC<Props> = ({ index, value }) => {

@@ -23,8 +23,8 @@ const DocFileInput: React.FC<Props> = ({ index, value }) => {
             >
                 X
             </button>
-            <object data={value.linkUrl} type={value.data.type} width="300" height="500">
-                <p>Tu navegador no puede mostrar el ARCHIVO. <a href={value.linkUrl}>Descargar</a>.</p>
+            <object data={value.value} type={value.data.type} width="300" height="500">
+                <p>Tu navegador no puede mostrar el ARCHIVO. <a href={value.value}>Descargar</a>.</p>
             </object>
         </li>
     )

@@ -40,7 +40,7 @@ export interface Survey_ChatOwnUser{
 
 export interface File_ChatOwnUser{
     type: 'IMG_FILE' | 'DOC_FILE' | 'AUD_FILE',
-    linkUrl:string
+    value:string
     data:{
         name:string,
         type:string,
