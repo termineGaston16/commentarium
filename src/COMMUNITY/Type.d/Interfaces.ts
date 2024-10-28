@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import { User } from "../../REDUX/Type.d/Interfaces";
+import { UserContact } from "../Elements/UserContact";
 
 export interface Specie {
     natalName: string;
@@ -50,7 +50,7 @@ export interface File_ChatOwnUser{
 
 export interface User_ChatOwnUser{
     type: 'USER',
-    value: User
+    value: UserContact
 }
 
 export type ChatOwnUser = Text_ChatOwnUser | File_ChatOwnUser | Survey_ChatOwnUser | User_ChatOwnUser;

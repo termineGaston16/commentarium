@@ -5,7 +5,7 @@ import { GiMagicPalm } from "react-icons/gi";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { GENDER, LOCATIONS, MAGIC_CLASSES, SPECIES } from "../../dataLocal";
-import { Prop } from "../Components/User/Register";
+import { Prop } from "../Components/Register";
 
 interface Props {
     setDataComplementy: React.Dispatch<React.SetStateAction<Prop>>

@@ -5,9 +5,9 @@ import { Provider } from "react-redux";
 import { store } from "./REDUX";
 
 //LAZY
-const OnlineUserProfile = lazy(() => import('./COMMUNITY/Components/User/OnlineUserProfile'))
-const Login = lazy(()=> import('./COMMUNITY/Components/User/Login'))
-const Register = lazy(()=> import('./COMMUNITY/Components/User/Register'))
+const OnlineUserProfile = lazy(() => import('./USER/Components/OnlineUserProfile'))
+const Login = lazy(()=> import('./USER/Components/Login'))
+const Register = lazy(()=> import('./USER/Components/Register'))
 
 export default function App() {
     return (

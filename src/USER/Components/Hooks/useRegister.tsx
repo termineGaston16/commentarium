@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../../../REDUX/Hook/useStore"
 import { User } from "../../../REDUX/Type.d/Interfaces"
 import { validateDisplayName } from "../Functions/validateDisplayName"
-import { AlertSubmit } from "../User/Register"
+import { AlertSubmit } from "../Register"
 
 export const useRegister = () => {
 
@@ -58,7 +58,7 @@ export const useRegister = () => {
         magicClassRegister: string,
         fullNameRegister: string,
         ageRegister: string,
-        profilePictureFile: File | null,
+        profilePictureUrl: string | null,
         displayNameRegister: string,
         descriptionRegister: string | null,
         passwordRegister: string
@@ -77,8 +77,7 @@ export const useRegister = () => {
             magicClass: magicClassRegister,
             online: true,
             password: passwordRegister,
-            profilePictureFile: profilePictureFile ?? null,
-            profilePictureUrl: '',
+            profilePictureUrl: profilePictureUrl ?? '',
             species: speciesRegister
         }
 

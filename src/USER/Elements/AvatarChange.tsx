@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { GrGallery } from "react-icons/gr";
-import { Prop } from "../Components/User/Register";
+import { Prop } from "../Components/Register";
 
 interface Props {
     setDataComplementy: React.Dispatch<React.SetStateAction<Prop>>

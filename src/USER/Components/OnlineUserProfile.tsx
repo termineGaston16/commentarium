@@ -6,9 +6,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import '../Styles/onlineUserProfile.css'
 import { useEffect, useState } from "react";
-import { useOnlineUserProfile } from "../Hooks/useOnlineUserProfile";
-import { useAppDispatch, useAppSelector } from "../../../REDUX/Hook/useStore";
-import { EmptyUser } from "../../../REDUX/slice/userOnline";
+import { useAppDispatch, useAppSelector } from "../../REDUX/Hook/useStore";
+import { useOnlineUserProfile } from "../../COMMUNITY/Components/Hooks/useOnlineUserProfile";
+import { EmptyUser } from "../../REDUX/slice/userOnline";
 
 export default function OnlineUserProfile() {
 

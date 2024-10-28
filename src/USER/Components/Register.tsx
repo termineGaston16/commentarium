@@ -1,9 +1,9 @@
-import '../Styles/register.css'
-import ComplementaryChange from '../../Elements/ComplementaryChange';
+import './Styles/register.css'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AvatarChange from '../../Elements/AvatarChange';
-import { useRegister } from '../Hooks/useRegister';
+import { useRegister } from './Hooks/useRegister';
+import AvatarChange from '../Elements/AvatarChange';
+import ComplementaryChange from '../Elements/ComplementaryChange';
 
 export interface Prop {
     speciesRegister: null | string,
@@ -13,8 +13,8 @@ export interface Prop {
     profilePicture: null | File
 }
 
-export interface AlertSubmit{
-    alert:string,
+export interface AlertSubmit {
+    alert: string,
     state: boolean
 }
 
@@ -42,7 +42,7 @@ export default function Register() {
         const locationRegister = dataComplementy.locationRegister
         const genderRegister = dataComplementy.genderRegister
         const magicClassRegister = dataComplementy.magicClassRegister
-        const profilePictureFile = dataComplementy.profilePicture
+        const profilePictureUrl = dataComplementy.profilePicture
 
         const fullNameRegister = new window.FormData(event.currentTarget).get('fullNameRegister')
         const ageRegister = new window.FormData(event.currentTarget).get('ageRegister')
@@ -67,7 +67,7 @@ export default function Register() {
                 magicClassRegister as string,
                 fullNameRegister as string,
                 ageRegister as string,
-                profilePictureFile as File | null,
+                profilePictureUrl as string | null,
                 result_b.alert as string,
                 descriptionRegister as string | null,
                 result_c.alert as string
@@ -88,23 +88,26 @@ export default function Register() {
                 {complementaryMessage && <span>{complementaryMessage}</span>}
 
                 <input required
-
+                    maxLength={20}
                     className="register__form__data-face__input"
                     type="text"
                     name="fullNameRegister"
                     placeholder="*Nombre completo"
                     onFocus={() => setComplementaryMessage(`Introduce tu nombre completo. [Sólo permite 
-                        caracter alfanumérico del alfabeto latino básico, incluido el caracter de subrayado.]`)}
+                        caracter alfanumérico del alfabeto latino básico, incluido el caracter de subrayado. El máximo son 20
+                        caracteres.]`)}
                 />
 
                 <input required
+                    maxLength={20}
                     className="register__form__data-face__input"
                     type="text"
                     placeholder="*Nombre de Usuario"
                     name="displayNameRegister"
                     onFocus={() => setComplementaryMessage(`Introduce tu nombre de usuario. 
                     Los demás buscarán tu perfil por este nombre. [Sólo permite 
-                    caracter alfanumérico del alfabeto latino básico, incluido el caracter de subrayado pero no los espacios.]`)}
+                    caracter alfanumérico del alfabeto latino básico, incluido el caracter de subrayado pero no los espacios.
+                    El máximo son 20 caracteres.]`)}
                 />
 
                 <input required
@@ -115,17 +118,22 @@ export default function Register() {
                     onFocus={() => setComplementaryMessage(null)} />
 
                 <input required
+                    maxLength={30}
+                    minLength={8}
                     className="register__form__data-face__input"
                     type="password"
                     placeholder="*Crea tu contraseña"
                     name="passwordRegister"
-                    onFocus={() => setComplementaryMessage(`Crea una contraseña para acceder a tu cuenta a futuro. [Permite 
+                    onFocus={() => setComplementaryMessage(`Crea una contraseña para acceder a tu cuenta a futuro. [Debe tener una
+                        longitud entre 8 y 30 caracteres. Permite 
                     caracter alfanumérico del alfabeto latino básico y estos caracteres: 
                         ! @ # $ % ^ & * ( ) _ + - = { } : ; " ' < > , .
                     `)}
                 />
 
                 <input required
+                    maxLength={30}
+                    minLength={8}
                     className="register__form__data-face__input"
                     type="password"
                     placeholder="*Confirma tu contraseña"

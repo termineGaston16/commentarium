@@ -1,84 +1,88 @@
-import { AiOutlineLike, AiOutlineDislike  } from "react-icons/ai";
+import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { FaRegComments } from "react-icons/fa6";
-
 import './Styles/groupChat.css'
+import { useAppDispatch, useAppSelector } from "../../REDUX/Hook/useStore";
+import { ChatOwnUser } from "../Type.d/Interfaces";
+import { ReactNode } from "react";
+import UserFileInput from "../Elements/Inputs/UserFileInput";
+import DocFileInput from "../Elements/Inputs/DocFileInput";
 
-export default function GroupChat(){
-    return(
+export default function GroupChat() {
+
+    const groupChat = useAppSelector(state => state.groupChat)
+    
+    const ownUser = useAppSelector(state => state.ownUser)
+    const dispatch = useAppDispatch()
+
+    // MOSTRAR DISTINTOS INPUTS
+    const showsInputs = (inputs: ChatOwnUser, index: number): ReactNode => {
+        switch (inputs.type) {
+            case "TEXT":
+                return <p key={index}>{inputs.value}</p>
+            case "IMG_FILE":
+                return <img key={index} src={inputs.value} alt="" />
+            case "DOC_FILE":
+                return <DocFileInput key={index} canBeDeleted={false} index={index} value={inputs} />
+            case "AUD_FILE":
+                return <audio key={index} src={inputs.value} controls></audio>
+            case "SURVEY":
+
+                break;
+            case "USER":
+                <UserFileInput key={index} canBeDeleted={false} index={index} value={inputs.value} />
+                break;
+        }
+    }
+
+    return (
         <ul className="group-chat">
-            <li className="group-chat__item">
-                <header className="group-chat__item__header">
-                    <img className="group-chat__item__header__avatar" src="" alt="" />
-                    <span className="group-chat__item__header__display-name">@12345678901234567890</span>
-                    <span className="group-chat__item__header__date">hace 3 días</span>
-                    <button className="group-chat__item__header__btn-reply" type="button">Responder</button>
-                </header>
-                <main className="group-chat__item__main">
-                    <p className="group-chat__item__main__text">lorem*10</p>
-                </main>
-                <footer className="group-chat__item__footer">
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineLike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineDislike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><FaRegComments /> 0</button>
-                </footer>
-            </li>
-            <li className="group-chat__item">
-                <header className="group-chat__item__header">
-                    <img className="group-chat__item__header__avatar" src="" alt="" />
-                    <span className="group-chat__item__header__display-name">@12345678901234567890</span>
-                    <span className="group-chat__item__header__date">hace 3 días</span>
-                    <button className="group-chat__item__header__btn-reply" type="button">Responder</button>
-                </header>
-                <main className="group-chat__item__main">
-                    <p className="group-chat__item__main__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, recusandae. Dicta, provident laboriosam sint facere repellendus voluptatem quo quibusdam. Placeat recusandae minus velit, culpa esse aspernatur odio natus quibusdam. Molestiae!
-                    Inventore, deserunt harum? Iste ducimus possimus, ullam voluptas quisquam alias eaque repellendus nostrum rerum impedit fugiat dolore, distinctio ipsam tenetur modi quod iure, ex officiis quasi ipsa sint dicta debitis!
-                    Deserunt alias quae nihil quis id quam, repellat veniam. Maxime consectetur accusamus quam saepe odit earum. Ab ipsa, dolor labore accusamus pariatur culpa veniam cupiditate error, magni numquam quaerat amet!
-                    Reprehenderit unde dolorum provident vel molestias odit laudantium magni, veritatis cupiditate accusantium architecto illum quis suscipit sequi blanditiis fuga esse labore debitis harum quo officia enim earum rerum aspernatur. Commodi.
-                    Iure necessitatibus natus modi rem pariatur eligendi et quidem autem, commodi fugit voluptatem dolor deserunt ut ipsa quaerat aspernatur fugiat aliquid. Eum iusto aliquam ipsam id et soluta voluptate debitis.
-                    Modi aut voluptate mollitia ipsum nulla eius dolores rem sunt autem. Accusantium ratione assumenda cumque unde culpa. Necessitatibus culpa voluptas quae, perspiciatis natus modi accusamus esse? Earum laboriosam non ducimus.
-                    Qui recusandae, nostrum architecto laboriosam similique iure aut, voluptate tenetur mollitia ad, sapiente commodi culpa sunt beatae ex rerum vel repellat veniam quia ab! Nemo error doloribus deserunt consectetur reiciendis.
-                    Non perferendis voluptate laboriosam accusamus vitae expedita ad illum qui dicta molestias dolores culpa consequatur, eos veniam aliquam libero nobis deleniti dolorem natus dolore voluptatibus quidem. Sed modi illum temporibus?
-                    Ducimus, nisi ex! Molestiae, explicabo earum illo officiis commodi eius ad culpa non laborum provident exercitationem sequi adipisci, reiciendis nobis voluptatum quasi excepturi a incidunt quaerat fugit illum ipsum! Nemo.
-                    Tenetur alias ullam modi voluptates quo maxime ut natus quos neque ipsum repellendus aliquam, reprehenderit dolor, quibusdam aperiam adipisci eum autem quod praesentium? Commodi repellat distinctio veniam laboriosam soluta quas.</p>
-                </main>
-                <footer className="group-chat__item__footer">
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineLike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineDislike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><FaRegComments /> 0</button>
-                </footer>
-            </li>
-            <li className="group-chat__item">
-                <header className="group-chat__item__header">
-                    <img className="group-chat__item__header__avatar" src="" alt="" />
-                    <span className="group-chat__item__header__display-name">@12345678901234567890</span>
-                    <span className="group-chat__item__header__date">hace 3 días</span>
-                    <button className="group-chat__item__header__btn-reply" type="button">Responder</button>
-                </header>
-                <main className="group-chat__item__main">
-                    <p className="group-chat__item__main__text">lorem*10</p>
-                </main>
-                <footer className="group-chat__item__footer">
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineLike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineDislike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><FaRegComments /> 0</button>
-                </footer>
-            </li>
-            <li className="group-chat__item">
-                <header className="group-chat__item__header">
-                    <img className="group-chat__item__header__avatar" src="" alt="" />
-                    <span className="group-chat__item__header__display-name">@12345678901234567890</span>
-                    <span className="group-chat__item__header__date">hace 3 días</span>
-                    <button className="group-chat__item__header__btn-reply" type="button">Responder</button>
-                </header>
-                <main className="group-chat__item__main">
-                    <p className="group-chat__item__main__text">lorem*10</p>
-                </main>
-                <footer className="group-chat__item__footer">
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineLike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><AiOutlineDislike /> 0</button>
-                    <button className="group-chat__item__footer__btn" type="button"><FaRegComments /> 0</button>
-                </footer>
-            </li>
+            {groupChat.length < 1} <span>No hay mensajes</span>
+            {groupChat.map((message, index) => (
+                <li key={index} className="group-chat__item">
+                    <header className="group-chat__item__header">
+                        <img className="group-chat__item__header__avatar" src={message.userIssuer.avatar}
+                            alt={``} />
+                        <span className="group-chat__item__header__display-name">@{message.userIssuer.name}</span>
+                        <span className="group-chat__item__header__date">{message.releaseDate}</span>
+                        <button className="group-chat__item__header__btn-reply" type="button">Responder</button>
+                    </header>
+                    <main className="group-chat__item__main">
+                        {message.message.map((input, index) => (
+                            showsInputs(input, index)
+                        ))}
+                    </main>
+                    <footer className="group-chat__item__footer">
+
+                        <button
+                            onClick={() => dispatch({
+                                type: 'groupChat/giveReaction', payload: {
+                                    correspondingUser: ownUser.user,
+                                    actionUser: 'LIKE',
+                                    indexMessage: index
+                                }
+                            })}
+                            className="group-chat__item__footer__btn"
+                            type="button">
+                            <AiOutlineLike />{message.interactions.likes}
+                        </button>
+
+
+                        <button
+                            onClick={() => dispatch({
+                                type: 'groupChat/giveReaction', payload: {
+                                    correspondingUser: ownUser.user,
+                                    actionUser: 'DISLIKE',
+                                    indexMessage: index
+                                }
+                            })}
+                            className="group-chat__item__footer__btn"
+                            type="button">
+                            <AiOutlineDislike /> {message.interactions.dislikes}</button>
+                        <button className="group-chat__item__footer__btn" type="button">
+                            <FaRegComments /> {message.interactions.comments.amount}</button>
+                    </footer>
+                </li>
+            ))}
         </ul>
     )
 }

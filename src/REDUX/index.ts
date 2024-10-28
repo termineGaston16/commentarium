@@ -1,20 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userOnlineSlice from "./slice/userOnline";
-import { searchProfileByDisplayNameMiddleware, loginUserMiddleware, uploadNewUserMiddleware, addInputMiddleware} from './Middleware/middleware'
+import { searchProfileByDisplayNameMiddleware, loginUserMiddleware, uploadNewUserMiddleware, addInputMiddleware, giveLikeOrNoComment} from './Middleware/middleware'
 import ownUserSlice from "./slice/ownUser";
 import  temporaryChatOwnUserSlice  from "./slice/temporaryChatOwnUser";
+import  groupChatSlice  from "./slice/groupChat";
 
 export const store = configureStore({
     reducer: {
         userOnline: userOnlineSlice,
         ownUser: ownUserSlice,
-        temporaryChatOwnUser: temporaryChatOwnUserSlice
+        temporaryChatOwnUser: temporaryChatOwnUserSlice,
+        groupChat: groupChatSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         searchProfileByDisplayNameMiddleware, 
         loginUserMiddleware,
         uploadNewUserMiddleware,
-        addInputMiddleware)
+        addInputMiddleware,
+        giveLikeOrNoComment
+    )
 })
 
 export type StoreType = ReturnType<typeof store.getState>

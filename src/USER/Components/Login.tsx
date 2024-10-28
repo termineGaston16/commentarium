@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { usePersonalProfile } from "../Hooks/usePersonalProfile";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../../REDUX/Hook/useStore";
+import { useAppSelector } from "../../REDUX/Hook/useStore";
+import { usePersonalProfile } from "./Hooks/usePersonalProfile";
 
 
 export default function Login() {

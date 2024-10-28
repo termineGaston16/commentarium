@@ -8,15 +8,17 @@ export const temporaryChatOwnUserSlice = createSlice({
     initialState,
     reducers: {
         addInputToChat: (state, action: PayloadAction<ChatOwnUser>) => {
-            state.push(action.payload); 
+            state.push(action.payload);
         },
-        removedInputChat: (state, action: PayloadAction<number>) =>{
-            console.log(action.payload, 1);
+        removedInputChat: (state, action: PayloadAction<number>) => {
             state.splice(action.payload, 1)
         },
         modifyValueInput: (state, action: PayloadAction<{ index: number, newValue: string }>) => {
             const { index, newValue } = action.payload;
-            state[index].value = newValue; 
+            state[index].value = newValue;
+        },
+        emptyInputChat: (state, _action) => {
+            state.splice(0)
         }
     }
 })
