@@ -3,8 +3,6 @@ import { FaGenderless } from "react-icons/fa";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { FaUserLargeSlash } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
-import '../Styles/onlineUserProfile.css'
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../REDUX/Hook/useStore";
 import { useOnlineUserProfile } from "../../COMMUNITY/Components/Hooks/useOnlineUserProfile";
