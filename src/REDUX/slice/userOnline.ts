@@ -16,7 +16,6 @@ export const EmptyUser: User = {
     id:'',
     location: '',
     magicClass:'',
-    profilePictureFile:null,
     profilePictureUrl:'',
     species:'',
     online: false,

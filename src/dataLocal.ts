@@ -16,7 +16,6 @@ export const USERS: User[] = [
         description: "Una joven Faeril que domina la magia de la luz, conocida por su naturaleza empática y su búsqueda de la verdad.",
         dateOfUnion: "2023-10-17",
         profilePictureUrl: "https://example.com/faeril.jpg",
-        profilePictureFile: null,
         online: false,
         password: 'abc'
     },
@@ -32,7 +31,6 @@ export const USERS: User[] = [
         description: "Un guerrero Daegon del frío desierto de Thornez'har, conocido por su destreza con escudos mágicos y defensa impenetrable.",
         dateOfUnion: "2023-05-12",
         profilePictureUrl: "https://example.com/daegon.jpg",
-        profilePictureFile: null,
         online: false,
         password: 'ABC'
     },
@@ -48,7 +46,6 @@ export const USERS: User[] = [
         description: "Una Felyrian de Nyssara, hábil en el control de arcanos y con una mente curiosa que explora las energías místicas.",
         dateOfUnion: "2024-01-03",
         profilePictureUrl: "https://example.com/felyrian.jpg",
-        profilePictureFile: null,
         online: false,
         password: '123'
     },
@@ -64,7 +61,6 @@ export const USERS: User[] = [
         description: "Torin es un enigmático Jebale-c de Abyssor, maestro de las tormentas y los vientos furiosos que guarda secretos ancestrales.",
         dateOfUnion: "2022-11-20",
         profilePictureUrl: "https://example.com/jebale-c.jpg",
-        profilePictureFile: null,
         online: false,
         password: 'aBC'
     }, {
@@ -79,7 +75,6 @@ export const USERS: User[] = [
         description: "Eirik, un humano del Centro de Indawo, es un hechicero con vasto conocimiento en las artes arcanas y estrategias mágicas.",
         dateOfUnion: "2021-08-15",
         profilePictureUrl: "https://example.com/human.jpg",
-        profilePictureFile: null,
         online: false,
         password: 'asd'
     }

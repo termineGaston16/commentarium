@@ -6,7 +6,7 @@ export const useUserContact = () => {
     // OBTENER PERFILES
     const getProfiles = (query: string): {
         displayName: User['displayName'],
-        avatar: User['profilePictureFile']
+        avatar: User['profilePictureUrl']
     }[] => {
         if(query.length < 1) return []
 
@@ -14,7 +14,7 @@ export const useUserContact = () => {
             .filter(user => user.displayName.includes(query))
             .map(user => ({
                 displayName: user.displayName,
-                avatar: user.profilePictureFile
+                avatar: user.profilePictureUrl
             }))
     }
     return { getProfiles }

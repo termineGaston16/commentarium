@@ -1,7 +1,7 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { USERS } from "../../dataLocal";
 import { EmptyUser } from "../slice/userOnline";
-import { ListOfUsersWhoInteractedWithThisPost, User } from "../Type.d/Interfaces";
+import { ListOfUsersWhoInteractedWithThisPost } from "../Type.d/Interfaces";
 
 // BUSCAR PERFIL POR DISPLAY NAME
 const searchProfileByDisplayNameMiddleware: Middleware = _store => next => (action: any) => {
