@@ -2,33 +2,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../REDUX/Hook/useStore";
 import { usePersonalProfile } from "./Hooks/usePersonalProfile";
+import { useLogin } from "./Hooks/useLogin";
 
 
 export default function Login() {
 
-    const { validateDisplayName, validateLoginUser, validatePassworld } = usePersonalProfile()
+    const ownUser = useAppSelector(state => state.ownUser)
 
     const [alertMessageOne, setAlertMessageOne] = useState<string | null>(null)
     const [alertMessageTwo, setAlertMessageTwo] = useState<string | null>(null)
     const [alertMessageThree, setAlertMessageThree] = useState<string | null>(null)
 
-    const handleSubmit = (event: React.FormEvent<HTMLElement>): void => {
-        event.preventDefault()
-
-        const name = new window.FormData(event.currentTarget as HTMLFormElement).get('displayName')
-        const password = new window.FormData(event.currentTarget as HTMLFormElement).get('password')
-
-        const valorOne = validateDisplayName(name as string);
-        const valorTwo = validatePassworld(password as string)
-
-        setAlertMessageOne(valorOne)
-        setAlertMessageTwo(valorTwo)
-        
-        if (!valorOne && !valorTwo) validateLoginUser(name as string, password as string)
-    }
-
-    const ownUser = useAppSelector(state => state.ownUser)
+    const { validateDisplayName, validateLoginUser, validatePassworld } = usePersonalProfile()
+    const { handleSubmitLogin } = useLogin()
     const navigate = useNavigate()
+
+
     useEffect(() => {
         if (ownUser.state) return setAlertMessageThree(ownUser.state)
         if (!ownUser.state && ownUser.user.online) navigate('/')
@@ -36,7 +25,9 @@ export default function Login() {
 
     return (
         <main>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(event) => handleSubmitLogin(event,validateDisplayName, 
+                validateLoginUser, validatePassworld, setAlertMessageOne, setAlertMessageTwo)}>
+
                 <label> Ingresa los datos de tu cuenta</label>
                 {alertMessageThree && <span>{alertMessageThree}</span>}
 

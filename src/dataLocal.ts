@@ -1,6 +1,6 @@
 import { IoIosMale, IoMdFemale } from "react-icons/io";
 import { Specie, MagicClass, Location, Gender } from "./COMMUNITY/Type.d/Interfaces";
-import { User } from "./REDUX/Type.d/Interfaces";
+import { CommentsMessage, InteractionsMessage, User } from "./REDUX/Type.d/Interfaces";
 import { FaGenderless } from "react-icons/fa6";
 
 export const USERS: User[] = [
@@ -157,3 +157,5 @@ export const GENDER: Gender[] = [
     }
 ]
 
+export const listOfInteractions: InteractionsMessage[] = []
+export const listOfComments: CommentsMessage[] = []

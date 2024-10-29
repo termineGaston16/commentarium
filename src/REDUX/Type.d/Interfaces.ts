@@ -32,17 +32,23 @@ export interface Message {
     },
     message: ChatOwnUser[],
     releaseDate: string,
-    interactions: {
-        listOfUsersWhoInteractedWithThisPost: ListOfUsersWhoInteractedWithThisPost[],
-        likes: number,
-        dislikes: number,
-        comments: {
-            amount: number,
-            comments: {
-                userIssuerAdditional: User,
-                releaseDateAdditional: string,
-                messageAdditional: ChatOwnUser,
-            }[]
-        }
-    }
+}
+
+export interface InteractionsMessage {
+    idLocal: number
+    listOfUsersWhoInteractedWithThisPost: ListOfUsersWhoInteractedWithThisPost[],
+    likes: number,
+    dislikes: number,
+}
+
+export interface CommentsMessage {
+    idLocal: number,
+    comments: MessageResponse[]
+}
+
+export interface MessageResponse {
+    userIssuerAdditionalUrl: User['profilePictureUrl'],
+    userIssuerAdditionalName: User['displayName'],
+    releaseDateAdditional: string,
+    messageAdditional: ChatOwnUser[],
 }

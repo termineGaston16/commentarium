@@ -2,7 +2,6 @@ import './Styles/userContact.css'
 import { useState } from 'react';
 import { User } from '../../REDUX/Type.d/Interfaces';
 import { useUserContact } from './Hooks/useUserContact';
-import { useAppDispatch } from '../../REDUX/Hook/useStore';
 
 interface Props {
     click: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,12 +14,10 @@ export interface UserContact {
 
 const UserContact: React.FC<Props> = ({ click }) => {
 
-    const dispatch = useAppDispatch()
-
     // ARRAY DE USER CONTACT
-    const { getProfiles } = useUserContact()
     const [usersContactsSearch, setUsersContactsSearch] = useState<UserContact[]>([])
 
+    const { getProfiles, addInput } = useUserContact()
 
     return (<div className="user-contact">
         <div className="user-contact__form">
@@ -42,10 +39,7 @@ const UserContact: React.FC<Props> = ({ click }) => {
                 {usersContactsSearch.length < 1 ? <span>*No hay usuarios</span> :
                     usersContactsSearch.map((user, index) => (
                         <li
-                            onClick={() => {
-                                dispatch({ type: 'temporaryChatOwnUserSlice/addInput', payload: { t: 'USER', v: user } })
-                                click(false)
-                            }}
+                            onClick={() => addInput('temporaryChatOwnUserSlice/addInput', { t: 'USER', v: user }, click)}
                             key={index} className="user-contact__form__list__item">
                             <img
                                 className="user-contact__form__list__item__avatar"

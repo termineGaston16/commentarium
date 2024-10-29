@@ -1,52 +1,27 @@
-import { IoMdFemale, IoIosMale } from "react-icons/io";
-import { FaGenderless } from "react-icons/fa";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { FaUserLargeSlash } from "react-icons/fa6";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../REDUX/Hook/useStore";
-import { useOnlineUserProfile } from "../../COMMUNITY/Components/Hooks/useOnlineUserProfile";
+import { useAppSelector } from "../../REDUX/Hook/useStore";
 import { EmptyUser } from "../../REDUX/slice/userOnline";
+import { useOnlineUserProfile } from "./Hooks/useOnlineUserProfile";
+
+import '../../COMMUNITY/Components/Styles/onlineUserProfile.css'
 
 export default function OnlineUserProfile() {
 
-    // VALIDAR DISPLAY NAME QUERY
-    const { validateQueryDisplayName } = useOnlineUserProfile()
-    const { displayName } = useParams()
+    const userOnline = useAppSelector(state => state.userOnline)
+    const ownUser = useAppSelector(state => state.ownUser)
+
     const [alertMessage, setAlertMessage] = useState<string | null>(null)
+    const { declareGender, logOut, validateQueryDisplayName } = useOnlineUserProfile()
+    const { displayName } = useParams()
+
 
     useEffect(() => {
         if (displayName) return setAlertMessage(validateQueryDisplayName(displayName))
     }, [displayName])
 
-    // USER ONLINE LOCAL
-    const userOnline = useAppSelector(state => state.userOnline)
-    // USUARIO PROPIO
-    const ownUser = useAppSelector(state => state.ownUser)
-
-    //DECLARAR GÉNERO
-    const declareGender = (gender: string) => {
-        switch (gender) {
-            case 'Indefinido':
-                return <FaGenderless />
-
-            case 'Femenino':
-                return <IoMdFemale />
-
-            case 'Masculino':
-                return <IoIosMale />
-            default:
-                break;
-        }
-    }
-
-    //DESLOGUEAR USUARIO
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
-    const logOut = (): void => {
-        dispatch({ type: 'ownUser/assignOwnProfile', payload: { user: EmptyUser, state: null } })
-        navigate('/')
-    }
 
     return (
         alertMessage ? <span>{alertMessage}</span> :
@@ -74,7 +49,9 @@ export default function OnlineUserProfile() {
                             <Link className="online-user-perfile__supplementary-data__options__btn" to={'/'}><MdOutlineArrowBackIos /></Link>
 
                             {ownUser.user.online && <>
-                                <button className="online-user-perfile__supplementary-data__options__btn" type="button" onClick={logOut}><FaUserLargeSlash /></button></>}
+                                <button className="online-user-perfile__supplementary-data__options__btn" type="button" onClick={() =>
+                                    logOut('ownUser/assignOwnProfile', { user: EmptyUser, state: null })
+                                }><FaUserLargeSlash /></button></>}
 
                             <span className="online-user-perfile__supplementary-data__options__date">Unido desde {userOnline.user.dateOfUnion}</span>
                         </header>

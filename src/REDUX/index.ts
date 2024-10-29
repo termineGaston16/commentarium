@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userOnlineSlice from "./slice/userOnline";
-import { searchProfileByDisplayNameMiddleware, loginUserMiddleware, uploadNewUserMiddleware, addInputMiddleware, giveLikeOrNoComment} from './Middleware/middleware'
+import { searchProfileByDisplayNameMiddleware, loginUserMiddleware, uploadNewUserMiddleware, addInputMiddleware, sendOrReplyMessage} from './Middleware/middleware'
 import ownUserSlice from "./slice/ownUser";
 import  temporaryChatOwnUserSlice  from "./slice/temporaryChatOwnUser";
 import  groupChatSlice  from "./slice/groupChat";
@@ -17,7 +17,7 @@ export const store = configureStore({
         loginUserMiddleware,
         uploadNewUserMiddleware,
         addInputMiddleware,
-        giveLikeOrNoComment
+        sendOrReplyMessage
     )
 })
 

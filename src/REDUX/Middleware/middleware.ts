@@ -114,85 +114,21 @@ const addInputMiddleware: Middleware = store => next => (action: any) => {
     next(action)
 }
 
-const giveLikeOrNoComment: Middleware = store => next => (action: any) => {
-    if (action.type === 'groupChat/giveReaction') {
-        const stateMessage = store.getState().groupChat[0];
-        const { correspondingUser, actionUser, indexMessage } = action.payload;
 
-        // EVALÚA SI EL USUARIO ESTÁ ACTIVO
-        if (!correspondingUser.online) return;
+// EVIAR O RESPONDER MENSAJE
+const sendOrReplyMessage: Middleware = _store => next => (action: any) => {
 
-        // VERIFICA SI EL USUARIO YA INTERACTUÓ CON EL MENSAJE
-        const userInMessage = stateMessage.interactions.listOfUsersWhoInteractedWithThisPost.find(
-            (user: ListOfUsersWhoInteractedWithThisPost) => user.user === correspondingUser.displayName
-        );
-
-        // DETERMINA SI AGREGAR, CAMBIAR O REMOVER REACCIÓN
-        const isSameAction = userInMessage?.actionU === actionUser;
-        const likeAdjustment = actionUser === 'LIKE' ? 1 : 0;
-        const dislikeAdjustment = actionUser === 'DISLIKE' ? 1 : 0;
-
-        // AGREGA O MODIFICA LA REACCIÓN SEGÚN LA CONDICIÓN
-        if (!userInMessage) {
-            // Si es la primera vez que reacciona
-            next({
-                type: 'groupChat/addUser',
-                payload: { index: indexMessage, user: { user: correspondingUser.displayName, actionU: actionUser } }
-            });
-            next({
-                type: 'groupChat/updateLikes',
-                payload: {
-                    indexMessage: indexMessage,
-                    newLikes: stateMessage.interactions.likes + likeAdjustment,
-                    newDislikes: stateMessage.interactions.dislikes + dislikeAdjustment
-                }
-            });
-        } else if (!isSameAction) {
-            //Si ya había reaccionado y cambia de orden:
-            next({
-                type: 'groupChat/updateLikes',
-                payload: {
-                    indexMessage: indexMessage,
-                    newLikes: stateMessage.interactions.likes + likeAdjustment - (userInMessage.actionU === 'LIKE' ? 1 : 0),
-                    newDislikes: stateMessage.interactions.dislikes + dislikeAdjustment - (userInMessage.actionU === 'DISLIKE' ? 1 : 0)
-                }
-            });
-
-            next({
-                type: 'groupChat/updateUser',
-                payload: {
-                    indexMessage: indexMessage,
-                    indexUser: stateMessage.interactions.listOfUsersWhoInteractedWithThisPost.findIndex(
-                        (u: ListOfUsersWhoInteractedWithThisPost) => u.user === correspondingUser.displayName
-                    ),
-                    newAction: actionUser
-                }
-            });
-
-        } else {
-            //Si es la misma acción
-            next({
-                type: 'groupChat/updateLikes',
-                payload: {
-                    indexMessage: indexMessage,
-                    newLikes: stateMessage.interactions.likes - likeAdjustment,
-                    newDislikes: stateMessage.interactions.dislikes - dislikeAdjustment
-                }
-            });
-
-            next({
-                type: 'groupChat/removeUser',
-                payload: {
-                    indexMessage: indexMessage,
-                    indexUser: stateMessage.interactions.listOfUsersWhoInteractedWithThisPost.findIndex(
-                        (u: ListOfUsersWhoInteractedWithThisPost) => u.user === correspondingUser.displayName
-                    )
-                }
-            });
+    if (action.type === 'groupChat/sendMessageAccordingto') {
+        const { dataRepluComment, message } = action.payload
+        if (!dataRepluComment) {
+            console.log(1);
+            
+            next({ type: 'groupChat/sendMessage', payload: message })
         }
     }
-    next(action);
-};
+
+    next(action)
+}
 
 
 
@@ -203,5 +139,5 @@ export {
     loginUserMiddleware,
     uploadNewUserMiddleware,
     addInputMiddleware,
-    giveLikeOrNoComment
+    sendOrReplyMessage
 } 
