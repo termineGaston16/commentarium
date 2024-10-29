@@ -1,5 +1,4 @@
 import { IoImageOutline, IoTextOutline } from "react-icons/io5";
-import { RiSurveyLine } from "react-icons/ri";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaRegFileAudio } from "react-icons/fa";
 import { IoMdContact } from "react-icons/io";
@@ -60,9 +59,9 @@ const UserChat: React.FC<Props> = ({ replyComment, setReplyComment, setListsOfIn
                             onClick={() => doDispatch('temporaryChatOwnUserSlice/addInput', { t: 'TEXT' })}
                         ><IoTextOutline /></button>
 
-                        <button type="button" className="user-chat__header__actions__btn"
+                        {/*<button type="button" className="user-chat__header__actions__btn"
                             onClick={() => doDispatch('temporaryChatOwnUserSlice/addInput', { t: 'SURVEY' })}
-                        ><RiSurveyLine /></button>
+                        ><RiSurveyLine /></button>*/}
 
                         <ButtonFileInput t={'IMG_FILE'} Avatar={IoImageOutline} accept={'image/*'} />
 

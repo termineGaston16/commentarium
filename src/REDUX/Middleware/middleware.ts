@@ -1,7 +1,6 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { USERS } from "../../dataLocal";
 import { EmptyUser } from "../slice/userOnline";
-import { ListOfUsersWhoInteractedWithThisPost } from "../Type.d/Interfaces";
 
 // BUSCAR PERFIL POR DISPLAY NAME
 const searchProfileByDisplayNameMiddleware: Middleware = _store => next => (action: any) => {
@@ -126,11 +125,8 @@ const sendOrReplyMessage: Middleware = _store => next => (action: any) => {
             next({ type: 'groupChat/sendMessage', payload: message })
         }
     }
-
     next(action)
 }
-
-
 
 
 
