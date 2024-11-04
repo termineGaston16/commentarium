@@ -1,5 +1,5 @@
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
-import { FaRegComments } from "react-icons/fa6";
+//import { FaRegComments } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "../../REDUX/Hook/useStore";
 import { PropsComment } from "./Community";
 import { useGroupChat } from "./Hooks/useGroupChat";
@@ -19,8 +19,8 @@ const GroupChat: React.FC<Props> = ({ setReplyComment }) => {
     const ownUser = useAppSelector(state => state.ownUser)
     const dispatch = useAppDispatch()
 
-    const [show, setShow] = useState<boolean>(false)
-    const [listOfCommentsLocal, setListOfCommentsLocal] = useState<APIresponse>({
+    //const [show, setShow] = useState<boolean>(false)
+    const [_listOfCommentsLocal, setListOfCommentsLocal] = useState<APIresponse>({
         data: {
             isError: false,
             result: []
