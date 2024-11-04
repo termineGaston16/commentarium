@@ -1,25 +1,24 @@
-import { USERS } from "../../../dataLocal"
+import { useState } from "react";
 import { useAppDispatch } from "../../../REDUX/Hook/useStore"
-import { User } from "../../../REDUX/Type.d/Interfaces"
+import { APIresponse, APIresponseDefault } from "../../Type.d/Interfaces"
+import { debounce } from 'lodash';
+import { getProfilesFirebase } from "../../../FIREBASE";
 
 export const useUserContact = () => {
 
+    const [usersContactsSearch, setUsersContactsSearch] = useState<APIresponse>(APIresponseDefault);
     const dispatch = useAppDispatch()
 
-    // OBTENER PERFILES
-    const getProfiles = (query: string): {
-        displayName: User['displayName'],
-        avatar: User['profilePictureUrl']
-    }[] => {
-        if (query.length < 1) return []
 
-        return USERS
-            .filter(user => user.displayName.includes(query))
-            .map(user => ({
-                displayName: user.displayName,
-                avatar: user.profilePictureUrl
-            }))
-    }
+    // OBTENER RESULTADO DE LA API
+    const handleSearchChange = debounce(async (query: string) => {
+        setUsersContactsSearch((prev) => ({ ...prev, isLoading: true }));
+        const result = await getProfilesFirebase(query);
+        setUsersContactsSearch({
+            data: result,
+            isLoading: false,
+        });
+    }, 500);
 
     // AGREGAR INPUT
     const addInput = (type: string, object: object, click: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -27,5 +26,5 @@ export const useUserContact = () => {
         click(false)
     }
 
-    return { getProfiles, addInput }
+    return { usersContactsSearch, addInput, handleSearchChange}
 }

@@ -26,7 +26,6 @@ export const usePersonalProfile = () => {
 
     // VALIDAR DISPLAY NAME
     const validateLoginUser = (displayName: string, password: string) => {
-
         dispatch({
             type: 'ownUser/searchUserForLogin',
             payload: { displayName: displayName, password: password }

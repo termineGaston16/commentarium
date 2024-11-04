@@ -1,9 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userOnlineSlice from "./slice/userOnline";
-import { searchProfileByDisplayNameMiddleware, loginUserMiddleware, uploadNewUserMiddleware, addInputMiddleware, sendOrReplyMessage} from './Middleware/middleware'
+import {
+    searchProfileByDisplayNameMiddleware,
+    loginUserMiddleware,
+    uploadNewUserMiddleware,
+    addInputMiddleware,
+    sendOrReplyMessage,
+    getGroupChat,
+    getChatOwn
+} from './Middleware/middleware'
 import ownUserSlice from "./slice/ownUser";
-import  temporaryChatOwnUserSlice  from "./slice/temporaryChatOwnUser";
-import  groupChatSlice  from "./slice/groupChat";
+import temporaryChatOwnUserSlice from "./slice/temporaryChatOwnUser";
+import groupChatSlice from "./slice/groupChat";
 
 export const store = configureStore({
     reducer: {
@@ -13,11 +21,13 @@ export const store = configureStore({
         groupChat: groupChatSlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-        searchProfileByDisplayNameMiddleware, 
+        getGroupChat,
+        searchProfileByDisplayNameMiddleware,
         loginUserMiddleware,
         uploadNewUserMiddleware,
         addInputMiddleware,
-        sendOrReplyMessage
+        sendOrReplyMessage,
+        getChatOwn
     )
 })
 

@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { useAppSelector } from "../../REDUX/Hook/useStore";
+import { ReactNode, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../REDUX/Hook/useStore";
 import { ChatOwnUser } from "../../COMMUNITY/Type.d/Interfaces";
 import TextInput from "../../COMMUNITY/Elements/Inputs/TextInput";
 import SurveyInput from "../../COMMUNITY/Elements/Inputs/SurveyInput";
@@ -10,7 +10,13 @@ import UserFileInput from "../../COMMUNITY/Elements/Inputs/UserFileInput";
 
 export default function userChatOwn() {
 
-    const temporaryChatOwnUser = useAppSelector(state => state.temporaryChatOwnUser);
+    const ownUser = useAppSelector(state => state.ownUser)
+    const temporaryChatOwnUser = useAppSelector(state => state.temporaryChatOwnUser)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (ownUser.user.online) dispatch({ type: 'temporaryChatOwnUserSlice/getChatOwn' })
+    }, [ownUser])
 
     // MOSTRAR INPUTS
     const showInputs = (temporaryChatOwnUser: ChatOwnUser[]): ReactNode => {
@@ -18,7 +24,7 @@ export default function userChatOwn() {
         return (
             <>
                 {temporaryChatOwnUser.map((element, index) => {
-   
+
                     switch (element.type) {
                         case 'TEXT':
                             return (<TextInput key={index} value={element.value} index={index} />);
@@ -36,7 +42,7 @@ export default function userChatOwn() {
                             return (<AudFileInput key={index} value={element.value} index={index} />);
 
                         case "USER":
-                            return (<UserFileInput canBeDeleted={true} key={index} value={element.value} index={index}/>);
+                            return (<UserFileInput canBeDeleted={true} key={index} value={element.value} index={index} />);
 
                         default:
                             return null;
@@ -46,9 +52,10 @@ export default function userChatOwn() {
         );
     }
 
-    return (
-        <ul className="user-chat__list">
-            {showInputs(temporaryChatOwnUser)}
-        </ul>
-    );
+    return (<>
+        {temporaryChatOwnUser.state ? <span>{temporaryChatOwnUser.state}</span> :
+            <ul className="user-chat__list">
+                {showInputs(temporaryChatOwnUser.result)}
+            </ul>}
+    </>);
 }

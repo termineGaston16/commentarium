@@ -34,6 +34,9 @@ export const userOnlineSlice = createSlice({
         assignProfile: (_state, action: PayloadAction<UserOnline>) => {
             const { user, state } = action.payload
             return { user: user, state: state }
+        },
+        modifyState:(state, action:PayloadAction<string>) =>{
+            state.state = action.payload
         }
     }
 })

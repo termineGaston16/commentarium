@@ -25,7 +25,7 @@ export interface ListOfUsersWhoInteractedWithThisPost {
 }
 
 export interface Message {
-    id: number,
+    id: string,
     userIssuer: {
         name: User['displayName'],
         avatar: User['profilePictureUrl']
@@ -35,14 +35,14 @@ export interface Message {
 }
 
 export interface InteractionsMessage {
-    idLocal: number
+    idLocal: string
     listOfUsersWhoInteractedWithThisPost: ListOfUsersWhoInteractedWithThisPost[],
     likes: number,
     dislikes: number,
 }
 
 export interface CommentsMessage {
-    idLocal: number,
+    idLocal: string,
     comments: MessageResponse[]
 }
 

@@ -1,9 +1,10 @@
 import './Styles/register.css'
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRegister } from './Hooks/useRegister';
 import AvatarChange from '../Elements/AvatarChange';
 import ComplementaryChange from '../Elements/ComplementaryChange';
+import { useAppSelector } from '../../REDUX/Hook/useStore';
 
 export interface Prop {
     speciesRegister: null | string,
@@ -35,7 +36,7 @@ export default function Register() {
 
 
     // OBTENER LOS DATOS DEL SUBMIT Y VALIDARLOS
-    const getSubmitData = (event: React.FormEvent<HTMLFormElement>) => {
+    const getSubmitData = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const speciesRegister = dataComplementy.speciesRegister
@@ -54,8 +55,8 @@ export default function Register() {
         const result_a = validateComplementaryData(speciesRegister, locationRegister, genderRegister, magicClassRegister)
         if (result_a) return setComplementaryMessage(result_a)
 
-        const result_b = validateFullNameDisplayName(fullNameRegister as string, displayNameRegister as string)
-        if (result_b.state) return setComplementaryMessage(result_b.alert)
+        const result_b = await validateFullNameDisplayName(fullNameRegister as string, displayNameRegister as string);
+        if (result_b.state) return setComplementaryMessage(result_b.alert);
 
         const result_c = validatePassword(passwordRegister as string, passwordRegisterTwo as string)
         if (result_c.state) return setComplementaryMessage(result_c.alert)
@@ -75,6 +76,12 @@ export default function Register() {
         }
     }
 
+    const ownUser = useAppSelector(state => state.ownUser)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (ownUser.user.online) navigate('/')
+        if(ownUser.state) setComplementaryMessage(ownUser.state)
+    }, [ownUser])
 
     return (<main className="register">
         <form className="register__form" onSubmit={getSubmitData}>

@@ -1,9 +1,10 @@
 import { ReactNode } from "react"
-import { ChatOwnUser } from "../../Type.d/Interfaces"
+import { APIresponse, ChatOwnUser } from "../../Type.d/Interfaces"
 import DocFileInput from "../../Elements/Inputs/DocFileInput"
 import UserFileInput from "../../Elements/Inputs/UserFileInput"
 import { UserOnline } from "../../../REDUX/slice/userOnline"
 import { InteractionsMessage } from "../../../REDUX/Type.d/Interfaces"
+import { updateInteractionFirebase } from "../../../FIREBASE"
 
 export const useGroupChat = () => {
 
@@ -31,14 +32,14 @@ export const useGroupChat = () => {
     const reactToAComment = (
         ownUser: UserOnline,
         actionByUser: 'LIKE' | 'DISLIKE',
-        idMessageMain: number,
-        listsOfInteractions: InteractionsMessage[],
-        setListsOfInteractions: React.Dispatch<React.SetStateAction<InteractionsMessage[]>>
+        idMessageMain: string,
+        listOfInteractionsLocal: APIresponse,
+        setListOfInteractionsLocal: React.Dispatch<React.SetStateAction<APIresponse>>
     ): void => {
 
         if (!ownUser.user.online) return alert('¡Logueate para interactuar con el chat!');
 
-        const interactionActual = listsOfInteractions.find(list => list.idLocal === idMessageMain) as InteractionsMessage;
+        const interactionActual = listOfInteractionsLocal.data.result.find((list: { idLocal: string }) => list.idLocal === idMessageMain) as InteractionsMessage;
 
         const userAlreadyReacted = interactionActual.listOfUsersWhoInteractedWithThisPost.find(
             user => user.user === ownUser.user.displayName
@@ -60,35 +61,46 @@ export const useGroupChat = () => {
                     actionU: actionByUser
                 }
             ];
+
+            updateInteractionFirebase(newInteraction)
         } else if (!isSameAction) {
             newInteraction.dislikes += dislikeAdjustment - (userAlreadyReacted.actionU === 'DISLIKE' ? 1 : 0);
             newInteraction.likes += likeAdjustment - (userAlreadyReacted.actionU === 'LIKE' ? 1 : 0);
             newInteraction.listOfUsersWhoInteractedWithThisPost = interactionActual.listOfUsersWhoInteractedWithThisPost.map(user =>
                 user.user === ownUser.user.displayName ? { ...user, actionU: actionByUser } : user
             );
+
+            updateInteractionFirebase(newInteraction)
         } else {
             newInteraction.dislikes -= dislikeAdjustment;
             newInteraction.likes -= likeAdjustment;
             newInteraction.listOfUsersWhoInteractedWithThisPost = interactionActual.listOfUsersWhoInteractedWithThisPost.filter(
                 user => user.user !== ownUser.user.displayName
             );
+            updateInteractionFirebase(newInteraction)
         }
 
-        const index = listsOfInteractions.findIndex(i => i.idLocal === newInteraction.idLocal);
-        const newListsOfInteractions = structuredClone(listsOfInteractions);
+        const index = listOfInteractionsLocal.data.result.findIndex((i: { idLocal: string }) => i.idLocal === newInteraction.idLocal);
+        const newListsOfInteractions = structuredClone(listOfInteractionsLocal.data.result);
         newListsOfInteractions[index] = newInteraction;
-        setListsOfInteractions(newListsOfInteractions);
+        setListOfInteractionsLocal({
+            data: {
+                result: newListsOfInteractions,
+                isError: false
+            },
+            isLoading: false
+        });
     };
 
 
     // ACTUALIZAR LOS VALORES DE UN COMENTARIO
-    const updateLikes = (idMessageMain: number, listsOfInteractions: InteractionsMessage[]): number => {
+    const updateLikes = (idMessageMain: string, listsOfInteractions: InteractionsMessage[]): number => {
         return (listsOfInteractions.find(i => i.idLocal === idMessageMain))?.likes ?? 0
     }
 
-    const updatedislikes = (idMessageMain: number, listsOfInteractions: InteractionsMessage[]): number => {
+    const updatedislikes = (idMessageMain: string, listsOfInteractions: InteractionsMessage[]): number => {
         return (listsOfInteractions.find(i => i.idLocal === idMessageMain))?.dislikes ?? 0
     }
 
-    return { showsInputs, reactToAComment, updateLikes, updatedislikes }
+    return { showsInputs, reactToAComment, updateLikes, updatedislikes}
 }

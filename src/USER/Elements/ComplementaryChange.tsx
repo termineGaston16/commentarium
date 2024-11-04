@@ -2,10 +2,11 @@ import { GiPlantsAndAnimals } from "react-icons/gi";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { BsGenderMale } from "react-icons/bs";
 import { GiMagicPalm } from "react-icons/gi";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { IconType } from "react-icons";
-import { GENDER, LOCATIONS, MAGIC_CLASSES, SPECIES } from "../../dataLocal";
 import { Prop } from "../Components/Register";
+import { APIresponse, Gender, Location, MagicClass, Specie } from "../../COMMUNITY/Type.d/Interfaces";
+import { getGenderFirebase, getLocationsFirebase, getMagicClassFirebase, getSpeciesFirebase } from "../../FIREBASE";
 
 interface Props {
     setDataComplementy: React.Dispatch<React.SetStateAction<Prop>>
@@ -38,28 +39,91 @@ const ComplementaryChange: React.FC<Props> = ({ setDataComplementy }) => {
         );
     };
 
+    const [SPECIES, setSPECIES] = useState<APIresponse>({
+        data: {
+            isError: false,
+            result: null
+        },
+        isLoading: true
+    })
+    const [LOCATIONS, setLOCATIONS] = useState<APIresponse>({
+        data: {
+            isError: false,
+            result: null
+        },
+        isLoading: true
+    })
+    const [GENDER, setGENDER] = useState<APIresponse>({
+        data: {
+            isError: false,
+            result: null
+        },
+        isLoading: true
+    })
+    const [MAGIC_CLASSES, setMAGIC_CLASSES] = useState<APIresponse>({
+        data: {
+            isError: false,
+            result: null
+        },
+        isLoading: true
+    })
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const genderDATA = await getGenderFirebase();
+            const locationsDATA = await getLocationsFirebase();
+            const magicClassDATA = await getMagicClassFirebase();
+            const speciesDATA = await getSpeciesFirebase();
+
+            setGENDER({
+                data: genderDATA,
+                isLoading: false
+            })
+
+            setLOCATIONS({
+                data: locationsDATA,
+                isLoading: false
+            })
+
+            setMAGIC_CLASSES({
+                data: magicClassDATA,
+                isLoading: false
+            })
+
+            setSPECIES({
+                data: speciesDATA,
+                isLoading: false
+            })
+        };
+
+        fetchComments();
+    }, []);
+
     const showComplementary = (value: number): ReactNode | null => {
         switch (value) {
             case 1:
                 return (
-                    <ul>
-                        {SPECIES.map((specie, index) => (
-                            <li key={index}>
-                                <button type="button"
-                                    onClick={() => {
-                                        setDataComplementy(prevState => ({ ...prevState, speciesRegister: specie.natalName }))
-                                        updateComplementaryState(0, specie.natalName);
-                                    }}>
-                                    {specie.nameTranslated}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        {SPECIES.isLoading ? <span>Cargando Especies...</span> :
+                            <ul>
+                                {(SPECIES.data.result as Specie[]).map((specie, index) => (
+                                    <li key={index}>
+                                        <button type="button"
+                                            onClick={() => {
+                                                setDataComplementy(prevState => ({ ...prevState, speciesRegister: specie.natalName }))
+                                                updateComplementaryState(0, specie.natalName);
+                                            }}>
+                                            {specie.nameTranslated}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>}
+                    </>
                 );
             case 2:
-                return (
+                return LOCATIONS.isLoading ? <span>Cargando Localidades...</span> : (
                     <ul>
-                        {LOCATIONS.map((location, index) => (
+                        {(LOCATIONS.data.result as Location[]).map((location, index) => (
                             <li key={index}>
                                 <button type="button"
                                     onClick={() => {
@@ -73,9 +137,9 @@ const ComplementaryChange: React.FC<Props> = ({ setDataComplementy }) => {
                     </ul>
                 );
             case 3:
-                return (
+                return GENDER.isLoading ? <span>Cargando Géneros...</span> : (
                     <ul>
-                        {GENDER.map((gender, index) => (
+                        {(GENDER.data.result as Gender[]).map((gender, index) => (
                             <li key={index}>
                                 <button type="button"
                                     onClick={() => {
@@ -89,9 +153,9 @@ const ComplementaryChange: React.FC<Props> = ({ setDataComplementy }) => {
                     </ul>
                 );
             case 4:
-                return (
+                return MAGIC_CLASSES.isLoading ? <span>Cargando Clases Mágicas...</span> : (
                     <ul>
-                        {MAGIC_CLASSES.map((magicClass, index) => (
+                        {(MAGIC_CLASSES.data.result as MagicClass[]).map((magicClass, index) => (
                             <li key={index}>
                                 <button type="button"
                                     onClick={() => {
@@ -108,6 +172,7 @@ const ComplementaryChange: React.FC<Props> = ({ setDataComplementy }) => {
                 return null;
         }
     };
+
 
     return (
         <>

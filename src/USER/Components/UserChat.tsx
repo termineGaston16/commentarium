@@ -9,8 +9,10 @@ import ButtonFileInput from "../../COMMUNITY/Elements/Inputs/ButtonFileInput";
 import { lazy, Suspense, useState } from "react";
 import { PropsComment } from "../../COMMUNITY/Components/Community";
 import { useUserChat } from "./Hooks/useUserChat";
+import { TfiReload } from "react-icons/tfi";
+
 import './Styles/userChat.css'
-import { InteractionsMessage } from "../../REDUX/Type.d/Interfaces";
+import { getChatGrupalFirebase } from "../../FIREBASE";
 
 const UserContact = lazy(() => import('../../COMMUNITY/Elements/UserContact'))
 
@@ -18,18 +20,16 @@ const UserContact = lazy(() => import('../../COMMUNITY/Elements/UserContact'))
 interface Props {
     replyComment: PropsComment,
     setReplyComment: React.Dispatch<React.SetStateAction<PropsComment>>,
-    setListsOfInteractions: React.Dispatch<React.SetStateAction<InteractionsMessage[]>>
 }
 
-const UserChat: React.FC<Props> = ({ replyComment, setReplyComment, setListsOfInteractions }) => {
+const UserChat: React.FC<Props> = ({ replyComment, setReplyComment }) => {
 
     const ownUser = useAppSelector(state => state.ownUser)
     const temporaryChatOwnUser = useAppSelector(state => state.temporaryChatOwnUser)
-    const groupChat = useAppSelector(state => state.groupChat)
 
     const [showComponentUserContact, setShowComponentUserContact] = useState<boolean>(false)
     const { doDispatch, sendMessageToTheGeneralGroup } = useUserChat()
-
+  
     return (
         !ownUser.user.online ?
             <div>
@@ -46,7 +46,7 @@ const UserChat: React.FC<Props> = ({ replyComment, setReplyComment, setListsOfIn
                         <button
                             onClick={() => {
                                 setReplyComment({
-                                    indexMessage: 0,
+                                    idMessage: '',
                                     state: false,
                                     message: 'Escribe tu mensaje'
                                 })
@@ -54,6 +54,9 @@ const UserChat: React.FC<Props> = ({ replyComment, setReplyComment, setListsOfIn
                             type="button">⨉</button>}
 
                     <div className="user-chat__header__actions">
+                        <button type="button" className="user-chat__header__actions__btn"
+                        onClick={()=> getChatGrupalFirebase()}
+                        ><TfiReload /></button>   
 
                         <button type="button" className="user-chat__header__actions__btn"
                             onClick={() => doDispatch('temporaryChatOwnUserSlice/addInput', { t: 'TEXT' })}
@@ -81,20 +84,18 @@ const UserChat: React.FC<Props> = ({ replyComment, setReplyComment, setListsOfIn
 
                 <button
                     onClick={() => {
-                        sendMessageToTheGeneralGroup(temporaryChatOwnUser,
-                            groupChat,
+                        sendMessageToTheGeneralGroup(temporaryChatOwnUser.result,
                             ownUser,
-                            replyComment,
-                            setListsOfInteractions
+                            replyComment
                         ),
                             setReplyComment({
-                                indexMessage: 0,
+                                idMessage: '',
                                 message: 'Escribe tu mensaje',
                                 state: false
                             })
                     }}
                     className="user-chat__send" type="button">ENVIAR <span className="user-chat__range">
-                        {temporaryChatOwnUser.length}/5</span></button>
+                        {temporaryChatOwnUser.result.length}/5</span></button>
                 <Link className="user-chat__to-home" to={`/perfil/${ownUser.user.displayName}`} >HOME</Link>
 
                 {showComponentUserContact &&

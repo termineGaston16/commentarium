@@ -8,6 +8,7 @@ import { useLogin } from "./Hooks/useLogin";
 export default function Login() {
 
     const ownUser = useAppSelector(state => state.ownUser)
+    const navigate = useNavigate()
 
     const [alertMessageOne, setAlertMessageOne] = useState<string | null>(null)
     const [alertMessageTwo, setAlertMessageTwo] = useState<string | null>(null)
@@ -15,17 +16,16 @@ export default function Login() {
 
     const { validateDisplayName, validateLoginUser, validatePassworld } = usePersonalProfile()
     const { handleSubmitLogin } = useLogin()
-    const navigate = useNavigate()
 
 
     useEffect(() => {
-        if (ownUser.state) return setAlertMessageThree(ownUser.state)
-        if (!ownUser.state && ownUser.user.online) navigate('/')
+        if (ownUser.state) setAlertMessageThree(ownUser.state)
+        if (ownUser.user.online) navigate('/')
     }, [ownUser])
 
     return (
         <main>
-            <form onSubmit={(event) => handleSubmitLogin(event,validateDisplayName, 
+            <form onSubmit={(event) => handleSubmitLogin(event, validateDisplayName,
                 validateLoginUser, validatePassworld, setAlertMessageOne, setAlertMessageTwo)}>
 
                 <label> Ingresa los datos de tu cuenta</label>

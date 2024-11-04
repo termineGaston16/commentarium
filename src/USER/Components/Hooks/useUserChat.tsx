@@ -2,7 +2,6 @@ import { PropsComment } from "../../../COMMUNITY/Components/Community"
 import { ChatOwnUser } from "../../../COMMUNITY/Type.d/Interfaces"
 import { useAppDispatch } from "../../../REDUX/Hook/useStore"
 import { UserOnline } from "../../../REDUX/slice/userOnline"
-import { InteractionsMessage, Message } from "../../../REDUX/Type.d/Interfaces"
 
 export const useUserChat = () => {
 
@@ -15,20 +14,20 @@ export const useUserChat = () => {
 
     // ENVIAR MENSAJE AL GRUPO GENERAL
     const sendMessageToTheGeneralGroup = (temporaryChatOwnUser: ChatOwnUser[],
-        groupChat: Message[],
         ownUser: UserOnline,
-        replyComment: PropsComment,
-        setListsOfInteractions: React.Dispatch<React.SetStateAction<InteractionsMessage[]>>) => {
+        replyComment: PropsComment) => {
 
         if (temporaryChatOwnUser.length < 1) return
 
         dispatch({ type: 'temporaryChatOwnUserSlice/emptyInputChat' })
 
+        const newId = crypto.randomUUID()
+
         dispatch({
             type: 'groupChat/sendMessageAccordingto', payload: {
                 dataRepluComment: replyComment.state,
                 message: {
-                    id: groupChat.length + 1,
+                    id: newId,
                     userIssuer: {
                         name: ownUser.user.displayName,
                         avatar: ownUser.user.profilePictureUrl
@@ -40,12 +39,25 @@ export const useUserChat = () => {
         })
 
         if (!replyComment.state) {
-            setListsOfInteractions(prevList => [...prevList, {
+
+           /* uploadNewInteraction({
                 dislikes: 0,
-                idLocal: groupChat.length + 1,
+                idLocal: newId,
                 likes: 0,
                 listOfUsersWhoInteractedWithThisPost: []
-            }])
+            })
+
+            uploadNewComment({
+                idLocal: newId,
+                comments: []
+            })*/
+        } else {
+            /*addNewCommentToMainMessage(replyComment.idMessage, {
+                userIssuerAdditionalUrl: ownUser.user.profilePictureUrl,
+                userIssuerAdditionalName: ownUser.user.displayName,
+                releaseDateAdditional: new Date().toLocaleTimeString(),
+                messageAdditional: temporaryChatOwnUser,
+            })*/
         }
 
     }

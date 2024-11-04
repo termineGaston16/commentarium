@@ -1,13 +1,12 @@
-import { useNavigate } from "react-router-dom"
+import { APIresponse } from "../../../COMMUNITY/Type.d/Interfaces"
+import { validateDisplayNameFirebase } from "../../../FIREBASE"
 import { useAppDispatch } from "../../../REDUX/Hook/useStore"
 import { User } from "../../../REDUX/Type.d/Interfaces"
-import { validateDisplayName } from "../Functions/validateDisplayName"
 import { AlertSubmit } from "../Register"
 
 export const useRegister = () => {
 
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
 
     // VALIDAR DATOS COMPLEMENTARIOS
     const validateComplementaryData = (speciesRegister: string | null,
@@ -23,22 +22,26 @@ export const useRegister = () => {
     }
 
     // VALIDAR NOMBRE COMPLETO Y DISPLAY NAME
-    const validateFullNameDisplayName = (fullName: string, displayName: string): AlertSubmit => {
-        const fullNameFiltered = fullName
-            .trim()
-            .replace(/\W/g, '')
-
-        if (fullNameFiltered.length < 1) return { alert: 'Ingresa un nombre completo válido', state: true }
-
-        const displayNameFiltered = displayName
-            .trim()
-            .replace(/\W/g, '')
-
-        if (displayNameFiltered.length < 1) return { alert: 'Ingresa un nombre de usuario válido', state: true }
-        if (validateDisplayName(displayNameFiltered)) return { alert: 'Ese nombre ya existe.', state: true }
-
+    const validateFullNameDisplayName = async (fullName: string, displayName: string): Promise<AlertSubmit> => {
+        const fullNameFiltered = fullName.trim().replace(/\W/g, '');
+    
+        if (fullNameFiltered.length < 1) return { alert: 'Ingresa un nombre completo válido', state: true };
+    
+        const displayNameFiltered = displayName.trim().replace(/\W/g, '');
+    
+        if (displayNameFiltered.length < 1) return { alert: 'Ingresa un nombre de usuario válido', state: true };
+    
+        const response: APIresponse = {
+            data: await validateDisplayNameFirebase(displayNameFiltered),
+            isLoading: false
+        };
+    
+        if (response.data.isError) return { alert: 'Ocurrió un error durante el proceso', state: true };
+        if (response.data.result) return { alert: 'Ese nombre ya existe.', state: true };
+    
         return { alert: displayNameFiltered, state: false };
-    }
+    };
+    
 
     //VALIDAR CONTRASEÑA
     const validatePassword = (passwordRegister: string, passwordRegisterTwo: string): AlertSubmit => {
@@ -82,7 +85,6 @@ export const useRegister = () => {
         }
 
         dispatch({ type: 'ownUser/uploadNewUser', payload: newUser })
-        navigate('/')
 
     }
 
