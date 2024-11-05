@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, getFirestore, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { CommentsMessage, InteractionsMessage, Message, MessageResponse, User } from "../REDUX/Type.d/Interfaces";
 import { APIdata, ChatOwnUser, Gender, Location, MagicClass, Specie } from "../COMMUNITY/Type.d/Interfaces";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -85,7 +85,6 @@ export async function getPerfileByDisplayNameFirebase(name: string): Promise<API
         }
     } catch (error) {
         result.isError = true;
-        console.log(error)
     }
 
     return result;
@@ -155,7 +154,7 @@ export async function storeNewUser(newUser: User): Promise<APIdata> {
 }
 
 // OBTENER CHAT USUARIO PROPIO
-export async function getChatOwnFirebase(): Promise<APIdata>{
+export async function getChatOwnFirebase(): Promise<APIdata> {
     const result: APIdata = {
         isError: false,
         result: []
@@ -269,17 +268,25 @@ export async function updateInteractionFirebase(newInteraction: InteractionsMess
         result: false
     };
 
+    const interactionRef = doc(collection(db, 'listOfInteractions'), newInteraction.idLocal);
+
     try {
-        const docRef = doc(collection(db, 'listOfInteractions'), newInteraction.idLocal);
-        await updateDoc(docRef, { ...newInteraction });
+        const docSnapshot = await getDoc(interactionRef);
+        if (docSnapshot.exists()) {
+            await updateDoc(interactionRef, { ...newInteraction });
+        } else {
+            // Usa setDoc para crear el documento si no existe
+            await setDoc(interactionRef, { ...newInteraction });
+        }
         result.result = true;
     } catch (error) {
         result.isError = true;
-        console.error(error);
+        console.error("Error al actualizar o crear el documento:", error);
     }
 
     return result;
 }
+
 
 // OBTENER INTERACIONES
 export async function getInteractionFirebase(): Promise<APIdata> {
@@ -328,7 +335,7 @@ export async function uploadNewCommentFirebase(newComment: CommentsMessage, idMe
 
 //AGREGAR RESPUESTA A UN COMENTARIO
 export async function addNewCommentToMainMessageFirebase(
-    idComment: string, // Cambié el tipo a string ya que los ID en Firestore suelen ser strings
+    idComment: string,
     messageResponse: MessageResponse
 ): Promise<APIdata> {
     const result: APIdata = {
@@ -341,10 +348,13 @@ export async function addNewCommentToMainMessageFirebase(
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
+            // Si el documento existe, actualizamos los comentarios
             await updateDoc(docRef, { comments: arrayUnion(messageResponse) });
             result.result = true;
         } else {
-            result.isError = true;
+            // Si el documento no existe, lo creamos con el primer comentario
+            await setDoc(docRef, { idLocal: idComment, comments: [messageResponse] });
+            result.result = true;
         }
     } catch (error) {
         result.isError = true;
@@ -352,6 +362,7 @@ export async function addNewCommentToMainMessageFirebase(
 
     return result;
 }
+
 
 // OBTENER COMENTARIOS
 export async function getCommentsFirebase(): Promise<APIdata> {
@@ -378,37 +389,33 @@ export async function getCommentsFirebase(): Promise<APIdata> {
 }
 
 //OBTENER LA CANTIDAD DE COMENTARIOS SEGUN UN MENSAJE
-export async function getCommentLength(idMessage: string): Promise<APIdata> {
-    const result: APIdata = {
-        isError: false,
-        result: 0
-    }
-
+export async function getCommentLength(idMessage: string): Promise<number> {
     try {
-        const docRef = doc(collection(db, 'listOfComment'), idMessage)
-        const docSnap = await getDoc(docRef)
+        const docRef = doc(collection(db, 'listOfComments'), idMessage);
+        const docSnap = await getDoc(docRef);
+
         if (docSnap.exists()) {
-            result.result = (docSnap.data() as CommentsMessage).comments.length
+            const data = docSnap.data() as CommentsMessage;
+            return data.comments.length;
         } else {
-            result.isError = true
+            console.warn(`Documento con ID ${idMessage} no encontrado.`);
+            return 0; // Retorna 0 si el documento no existe
         }
     } catch (error) {
-        result.isError = true
-        console.error(error)
+        console.error("Error al obtener el conteo de comentarios:", error);
+        return 0; // Retorna 0 en caso de error
     }
-
-    return result
 }
 
 //OBTENER GENEROS
-export async function getGenderFirebase():Promise<APIdata>{
+export async function getGenderFirebase(): Promise<APIdata> {
     const result: APIdata = {
         isError: false,
         result: []
     }
 
     try {
-        const response = await getDocs(collection(db,'GENDER'))
+        const response = await getDocs(collection(db, 'GENDER'))
         response.forEach(object => {
             const data = object.data() as Gender
             result.result.push({
@@ -425,14 +432,14 @@ export async function getGenderFirebase():Promise<APIdata>{
 }
 
 //OBTENER LOCACIONES
-export async function getLocationsFirebase():Promise<APIdata>{
+export async function getLocationsFirebase(): Promise<APIdata> {
     const result: APIdata = {
         isError: false,
         result: []
     }
 
     try {
-        const response = await getDocs(collection(db,'LOCATIONS'))
+        const response = await getDocs(collection(db, 'LOCATIONS'))
         response.forEach(object => {
             const data = object.data() as Location
             result.result.push({
@@ -451,14 +458,14 @@ export async function getLocationsFirebase():Promise<APIdata>{
 }
 
 //OBTENER CLASES MAGICAS
-export async function getMagicClassFirebase():Promise<APIdata>{
+export async function getMagicClassFirebase(): Promise<APIdata> {
     const result: APIdata = {
         isError: false,
         result: []
     }
 
     try {
-        const response = await getDocs(collection(db,'MAGIC_CLASSES'))
+        const response = await getDocs(collection(db, 'MAGIC_CLASSES'))
         response.forEach(object => {
             const data = object.data() as MagicClass
             result.result.push({
@@ -477,14 +484,14 @@ export async function getMagicClassFirebase():Promise<APIdata>{
 }
 
 //OBTENER ESPECIES
-export async function getSpeciesFirebase():Promise<APIdata>{
+export async function getSpeciesFirebase(): Promise<APIdata> {
     const result: APIdata = {
         isError: false,
         result: []
     }
 
     try {
-        const response = await getDocs(collection(db,'SPECIES'))
+        const response = await getDocs(collection(db, 'SPECIES'))
         response.forEach(object => {
             const data = object.data() as Specie
             result.result.push({
@@ -501,8 +508,8 @@ export async function getSpeciesFirebase():Promise<APIdata>{
 }
 
 //VALIDAR DISPLAY NAME GENERAL
-export async function validateDisplayNameFirebase(displayNameData: string): Promise<APIdata>{
-    let result: APIdata ={
+export async function validateDisplayNameFirebase(displayNameData: string): Promise<APIdata> {
+    let result: APIdata = {
         isError: false,
         result: false
     }
@@ -511,7 +518,7 @@ export async function validateDisplayNameFirebase(displayNameData: string): Prom
         const response = await getDocs(collection(db, 'USERS'))
         for (const object of response.docs) {
             const data = object.data() as User
-            if(data.displayName === displayNameData) return result = {
+            if (data.displayName === displayNameData) return result = {
                 isError: false,
                 result: true
             }

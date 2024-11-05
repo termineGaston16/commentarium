@@ -31,27 +31,31 @@ const UserContact: React.FC<Props> = ({ click }) => {
                 />
 
                 <br className="user-contact__form__br" />
-                <ul className="user-contact__form__list">
-                    {usersContactsSearch.isLoading || usersContactsSearch.data.isError ?
 
-                        <ApiComplementary
-                            isLoading={usersContactsSearch.isLoading}
-                            isError={usersContactsSearch.data.isError}/>
-                        :
-                        usersContactsSearch.data.result.map((user: { avatar: string, displayName: string }, index: number) => (
-                            <li
-                                onClick={() => addInput('temporaryChatOwnUserSlice/addInput', { t: 'USER', v: user }, click)}
-                                key={index} className="user-contact__form__list__item">
-                                <img
-                                    className="user-contact__form__list__item__avatar"
-                                    src={`/perfil/${user.avatar}`} alt="" style={{ width: '30vw' }} />
-                                <span
-                                    className="user-contact__form__list__item__display-name"
-                                >@{user.displayName}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
+                {!usersContactsSearch.data.result ?
+                    <span>Busca usuarios</span>
+                    :
+                    <ul className="user-contact__form__list">
+                        {usersContactsSearch.isLoading || usersContactsSearch.data.isError ?
+
+                            <ApiComplementary
+                                isLoading={usersContactsSearch.isLoading}
+                                isError={usersContactsSearch.data.isError} />
+                            :
+                            usersContactsSearch.data.result.map((user: { avatar: string, displayName: string }, index: number) => (
+                                <li
+                                    onClick={() => addInput('temporaryChatOwnUserSlice/addInput', { t: 'USER', v: user }, click)}
+                                    key={index} className="user-contact__form__list__item">
+                                    <img
+                                        className="user-contact__form__list__item__avatar"
+                                        src={`/perfil/${user.avatar}`} alt="" style={{ width: '30vw' }} />
+                                    <span
+                                        className="user-contact__form__list__item__display-name"
+                                    >@{user.displayName}</span>
+                                </li>
+                            ))
+                        }
+                    </ul>}
             </div>
         </div>
     );

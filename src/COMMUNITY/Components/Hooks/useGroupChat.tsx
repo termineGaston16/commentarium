@@ -39,7 +39,18 @@ export const useGroupChat = () => {
 
         if (!ownUser.user.online) return alert('¡Logueate para interactuar con el chat!');
 
-        const interactionActual = listOfInteractionsLocal.data.result.find((list: { idLocal: string }) => list.idLocal === idMessageMain) as InteractionsMessage;
+        let interactionActual = listOfInteractionsLocal.data.result.find((list: { idLocal: string }) => list.idLocal === idMessageMain) as InteractionsMessage;
+
+        if (!interactionActual) {
+            // Crear una nueva interacción si no existe
+            interactionActual = {
+                idLocal: idMessageMain,
+                likes: 0,
+                dislikes: 0,
+                listOfUsersWhoInteractedWithThisPost: []
+            };
+            listOfInteractionsLocal.data.result.push(interactionActual);
+        }
 
         const userAlreadyReacted = interactionActual.listOfUsersWhoInteractedWithThisPost.find(
             user => user.user === ownUser.user.displayName
@@ -49,7 +60,7 @@ export const useGroupChat = () => {
         const likeAdjustment = actionByUser === 'LIKE' ? 1 : 0;
         const dislikeAdjustment = actionByUser === 'DISLIKE' ? 1 : 0;
 
-        const newInteraction = structuredClone(interactionActual);
+        const newInteraction = { ...interactionActual };
 
         if (!userAlreadyReacted) {
             newInteraction.dislikes += dislikeAdjustment;
@@ -102,5 +113,5 @@ export const useGroupChat = () => {
         return (listsOfInteractions.find(i => i.idLocal === idMessageMain))?.dislikes ?? 0
     }
 
-    return { showsInputs, reactToAComment, updateLikes, updatedislikes}
+    return { showsInputs, reactToAComment, updateLikes, updatedislikes }
 }

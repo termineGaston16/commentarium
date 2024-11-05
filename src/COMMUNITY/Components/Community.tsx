@@ -18,15 +18,19 @@ export default function Community() {
         message: 'Escribe tu mensaje'
     });
 
+    //ACTUALIZAR CADA VEZ QUE SE ENVIA MENSAJE
+    const [sendMenssage, setSendMensaje] = useState<boolean>(false)
 
     return (<main className="community">
         <GroupChat
             setReplyComment={setReplyComment}
+            sendMenssage= {sendMenssage}
         />
 
         <UserChat
             replyComment={replyComment}
             setReplyComment={setReplyComment}
+            setSendMensaje={setSendMensaje}
         />
     </main>)
 }

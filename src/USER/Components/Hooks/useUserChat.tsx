@@ -1,5 +1,6 @@
 import { PropsComment } from "../../../COMMUNITY/Components/Community"
 import { ChatOwnUser } from "../../../COMMUNITY/Type.d/Interfaces"
+import { addNewCommentToMainMessageFirebase } from "../../../FIREBASE"
 import { useAppDispatch } from "../../../REDUX/Hook/useStore"
 import { UserOnline } from "../../../REDUX/slice/userOnline"
 
@@ -38,26 +39,15 @@ export const useUserChat = () => {
             }
         })
 
-        if (!replyComment.state) {
-
-           /* uploadNewInteraction({
-                dislikes: 0,
-                idLocal: newId,
-                likes: 0,
-                listOfUsersWhoInteractedWithThisPost: []
-            })
-
-            uploadNewComment({
-                idLocal: newId,
-                comments: []
-            })*/
-        } else {
-            /*addNewCommentToMainMessage(replyComment.idMessage, {
-                userIssuerAdditionalUrl: ownUser.user.profilePictureUrl,
-                userIssuerAdditionalName: ownUser.user.displayName,
-                releaseDateAdditional: new Date().toLocaleTimeString(),
-                messageAdditional: temporaryChatOwnUser,
-            })*/
+        if (replyComment.state) {
+            addNewCommentToMainMessageFirebase(replyComment.idMessage,
+                {
+                    userIssuerAdditionalUrl: ownUser.user.profilePictureUrl,
+                    userIssuerAdditionalName: ownUser.user.displayName,
+                    releaseDateAdditional: new Date().toLocaleTimeString(),
+                    messageAdditional: temporaryChatOwnUser,
+                },
+            )
         }
 
     }

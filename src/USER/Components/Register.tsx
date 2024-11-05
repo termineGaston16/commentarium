@@ -11,7 +11,7 @@ export interface Prop {
     locationRegister: null | string,
     genderRegister: null | string,
     magicClassRegister: null | string,
-    profilePicture: null | File
+    profilePictureUrl: null | string
 }
 
 export interface AlertSubmit {
@@ -28,7 +28,7 @@ export default function Register() {
         locationRegister: null,
         genderRegister: null,
         magicClassRegister: null,
-        profilePicture: null
+        profilePictureUrl: null
     })
 
     // USE REGISTER
@@ -43,7 +43,8 @@ export default function Register() {
         const locationRegister = dataComplementy.locationRegister
         const genderRegister = dataComplementy.genderRegister
         const magicClassRegister = dataComplementy.magicClassRegister
-        const profilePictureUrl = dataComplementy.profilePicture
+        const profilePictureUrl = dataComplementy.profilePictureUrl
+
 
         const fullNameRegister = new window.FormData(event.currentTarget).get('fullNameRegister')
         const ageRegister = new window.FormData(event.currentTarget).get('ageRegister')
@@ -62,6 +63,7 @@ export default function Register() {
         if (result_c.state) return setComplementaryMessage(result_c.alert)
 
         if (!result_a && !result_b.state && !result_c.state) {
+            
             uploadNewUser(speciesRegister as string,
                 locationRegister as string,
                 genderRegister as string,

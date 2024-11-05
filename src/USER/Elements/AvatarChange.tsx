@@ -17,7 +17,7 @@ const AvatarChange: React.FC<Props> = ({ setDataComplementy }) => {
             reader.readAsDataURL(file)
             reader.onload = () => {
 
-                setDataComplementy(prevState => ({ ...prevState, profilePictureUrl: reader.result }))
+                setDataComplementy(prevState => ({ ...prevState, profilePictureUrl: reader.result as string}))
                 setAvatarState(reader.result as string)
             }
             reader.onerror = () => {
