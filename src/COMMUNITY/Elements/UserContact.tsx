@@ -46,9 +46,6 @@ const UserContact: React.FC<Props> = ({ click }) => {
                                 <li
                                     onClick={() => addInput('temporaryChatOwnUserSlice/addInput', { t: 'USER', v: user }, click)}
                                     key={index} className="user-contact__form__list__item">
-                                    <img
-                                        className="user-contact__form__list__item__avatar"
-                                        src={`/perfil/${user.avatar}`} alt="" style={{ width: '30vw' }} />
                                     <span
                                         className="user-contact__form__list__item__display-name"
                                     >@{user.displayName}</span>

@@ -122,7 +122,12 @@ const addInputMiddleware: Middleware = store => next => async (action: any) => {
                 break;
 
             case 'USER':
-                next({ type: 'TEXT', value: '' })
+                next({
+                    type: 'temporaryChatOwnUserSlice/addInputToChat', payload: {
+                        type: 'USER',
+                        value: action.payload.v
+                    }
+                })
                 break;
 
             default:

@@ -25,6 +25,7 @@ const UserChat: React.FC<Props> = ({ replyComment, setReplyComment, setSendMensa
     const ownUser = useAppSelector(state => state.ownUser)
     const temporaryChatOwnUser = useAppSelector(state => state.temporaryChatOwnUser)
 
+
     const [showComponentUserContact, setShowComponentUserContact] = useState<boolean>(false)
     const { doDispatch, sendMessageToTheGeneralGroup } = useUserChat()
 

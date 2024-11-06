@@ -24,21 +24,6 @@ export const useUserChat = () => {
 
         const newId = crypto.randomUUID()
 
-        dispatch({
-            type: 'groupChat/sendMessageAccordingto', payload: {
-                dataRepluComment: replyComment.state,
-                message: {
-                    id: newId,
-                    userIssuer: {
-                        name: ownUser.user.displayName,
-                        avatar: ownUser.user.profilePictureUrl
-                    },
-                    message: temporaryChatOwnUser,
-                    releaseDate: new Date().toLocaleTimeString(),
-                }
-            }
-        })
-
         if (replyComment.state) {
             addNewCommentToMainMessageFirebase(replyComment.idMessage,
                 {
@@ -48,6 +33,21 @@ export const useUserChat = () => {
                     messageAdditional: temporaryChatOwnUser,
                 },
             )
+        } else {
+            dispatch({
+                type: 'groupChat/sendMessageAccordingto', payload: {
+                    dataRepluComment: replyComment.state,
+                    message: {
+                        id: newId,
+                        userIssuer: {
+                            name: ownUser.user.displayName,
+                            avatar: ownUser.user.profilePictureUrl
+                        },
+                        message: temporaryChatOwnUser,
+                        releaseDate: new Date().toLocaleTimeString(),
+                    }
+                }
+            })
         }
 
     }

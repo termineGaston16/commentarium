@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { CommentsMessage, InteractionsMessage, Message, MessageResponse, User } from "../REDUX/Type.d/Interfaces";
 import { APIdata, ChatOwnUser, Gender, Location, MagicClass, Specie } from "../COMMUNITY/Type.d/Interfaces";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,6 +20,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
+const storage = getStorage(app)
 
 // OBTENER PERFILES
 export async function getProfilesFirebase(query: string): Promise<APIdata> {
@@ -134,23 +136,43 @@ export async function getPerfileByLogin(name: string, password: string): Promise
 
 // SUBIR USUARIO
 export async function storeNewUser(newUser: User): Promise<APIdata> {
-
     const result: APIdata = {
         isError: false,
         result: false
     }
 
     try {
-        const docRef = await addDoc(collection(db, 'USERS'), { ...newUser, id: '0' } as User)
+        // Crear el nuevo usuario en Firestore con un campo temporal "id"
+        const docRef = await addDoc(collection(db, 'USERS'), { ...newUser, id: '0' } as User);
+
+        // Actualizar el campo "id" del usuario con el ID del documento generado
         await updateDoc(docRef, { id: docRef.id });
 
+        /*
+        if (newUser.profilePictureFile) {
+            const storageRef = ref(storage, `profilePictures/${docRef.id}`);
+
+            // Subir el archivo al Storage
+            const uploadTask = await uploadBytesResumable(storageRef, newUser.profilePictureFile);
+
+            // Obtener la URL pública del archivo
+            const downloadURL = await getDownloadURL(uploadTask.ref);
+
+            // Actualizar el documento del usuario con la URL de la imagen de perfil
+            await updateDoc(docRef, { profilePictureUrl: downloadURL });
+
+            console.log("Imagen de perfil subida con éxito. URL:", downloadURL);
+        }*/
+
+        // Marcar el resultado como exitoso
         result.result = true;
+
     } catch (error) {
         result.isError = true;
-        console.error(error)
+        console.error("Error al almacenar el nuevo usuario:", error);
     }
 
-    return result
+    return result;
 }
 
 // OBTENER CHAT USUARIO PROPIO
@@ -534,4 +556,25 @@ export async function validateDisplayNameFirebase(displayNameData: string): Prom
 
     return result
 }
+
+// SUBIR FOTO DE PERFIL AL STORAGE
+export async function uploadAvatarPerfil(file: File, id: string) {
+    try {
+        // Crear una referencia en Storage usando el ID del usuario
+        const storageRef = ref(storage, `profilePictures/${file.name}`);
+        const uploadTask = await uploadBytesResumable(storageRef, file);
+
+        // Obtener la URL pública de la imagen subida
+        const downloadURL = await getDownloadURL(uploadTask.ref);
+
+        // Actualizar el documento del usuario en Firestore con la URL de la imagen
+        const userDocRef = doc(db, "USERS", id);
+        await updateDoc(userDocRef, { profilePictureUrl: downloadURL });
+
+        console.log("Imagen de perfil subida y URL actualizada en Firestore:", downloadURL);
+    } catch (error) {
+        console.error("Error al subir la imagen de perfil:", error);
+    }
+}
+
 

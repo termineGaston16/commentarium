@@ -11,7 +11,8 @@ export interface Prop {
     locationRegister: null | string,
     genderRegister: null | string,
     magicClassRegister: null | string,
-    profilePictureUrl: null | string
+    profilePictureUrl: null | string,
+    profilePictureFile: File | null
 }
 
 export interface AlertSubmit {
@@ -28,7 +29,8 @@ export default function Register() {
         locationRegister: null,
         genderRegister: null,
         magicClassRegister: null,
-        profilePictureUrl: null
+        profilePictureUrl: null,
+        profilePictureFile: null
     })
 
     // USE REGISTER
@@ -73,7 +75,7 @@ export default function Register() {
                 profilePictureUrl as string | null,
                 result_b.alert as string,
                 descriptionRegister as string | null,
-                result_c.alert as string
+                result_c.alert as string,
             )
         }
     }

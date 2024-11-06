@@ -14,9 +14,9 @@ export interface User extends Character {
     displayName: string,
     description: string,
     dateOfUnion: string,
-    profilePictureUrl: string
+    profilePictureUrl: string,
     online: boolean,
-    password: string
+    password: string,
 }
 
 export interface ListOfUsersWhoInteractedWithThisPost {
